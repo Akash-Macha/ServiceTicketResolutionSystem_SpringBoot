@@ -20,9 +20,10 @@
 
 <!-- START: styling for Table [ tickets ] displaying -->
 <style>
-	*{
+*{
 	text-align:center
-	}
+	/*box-sizing: border-box;*/
+}
 /* ----START: Table------ */
 table {
   font-family: arial, sans-serif;
@@ -32,7 +33,7 @@ table {
 
 td, th {
   border: 1px solid #dddddd;
-  text-align: left;
+  /*text-align: center;*/
   padding: 8px;
 }
 
@@ -41,9 +42,7 @@ tr:nth-child(even) {
 }
 /*----END: Table --------*/
 
-/*
-* Basic styles
-*/
+/* Basic styles */
 body {
   margin: 0;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
@@ -71,7 +70,6 @@ code {
 a, u {
     text-decoration: none;;
 }
-
 
 /*-- START: styling for Button-- */
 .button {
@@ -254,75 +252,74 @@ if(request.getParameter("operation") != null){
 		if(session.getAttribute("listOfTickets") == null){
 			System.out.println("NULL IN ListOfTickets");
 		}else{
-			
 		
 		ArrayList<Ticket> listOfTickets = (ArrayList<Ticket>)session.getAttribute("listOfTickets");
         
-System.out.println("\nIN SE.jsp line 254 Tickets = " + listOfTickets + "\n\n");
+		System.out.println("\nIN SE.jsp line 254 Tickets = " + listOfTickets + "\n\n");
 		
-        for(int i=0 ; i < listOfTickets.size() ; ++i){
-%>
-
-<!-- Table rows -->
-
-    <tr>
-    <td> <%= listOfTickets.get(i).getId()  %> </td>
-    <td> <%= listOfTickets.get(i).getRequested_by().getName() %> </td>
-    
-    <td> <%= listOfTickets.get(i).getMessage()  %> </td>
-    
-    <td> <%= listOfTickets.get(i).getStart_date()  %> </td>
-    <td> <%= listOfTickets.get(i).getRequested_end_date()  %> </td>
-    
-	<td> 
-		<%
-		if(listOfTickets.get(i).getStatus().getCode().equals("ON_GO")){
-			
-			%>
-			<div class="navbar">
-			  <div class="dropdown">
-			    <button class="dropbtn"> <%= listOfTickets.get(i).getPriority().getValue() %>
-			      <i class="fa fa-caret-down"></i>
-			    </button>
-			    <div class="dropdown-content">
-			    <%
-			    List<Priority> listOfPriorities = (List<Priority>) session.getAttribute("listOfPriorities");
-			    System.out.println("\n\n IN JSP 284 : List<Priority> listOfPriorities = " + listOfPriorities + "\n\n");
-				for(Priority priority : listOfPriorities) {
-					if(!priority.getValue().equals( listOfTickets.get(i).getPriority().getValue()) ){
-			    		%>
-							<a href="SE-updateTicketPriroty?TicketId=<%= listOfTickets.get(i).getId() %>&newPriorityValue=<%= priority.getValue() %>"> <%= priority.getValue() %> </a>
-			    		<%
-			    	}else{
-			    		%>
-			    		<%
-			    	}
-			    }
-			    %>
-			    </div>
-			  </div> 
-			</div>
+	        for(int i=0 ; i < listOfTickets.size() ; ++i){
+	%>
+	
+	<!-- Table rows -->
+	
+	    <tr>
+	    <td> <%= listOfTickets.get(i).getId()  %> </td>
+	    <td> <%= listOfTickets.get(i).getRequested_by().getName() %> </td>
+	    
+	    <td> <%= listOfTickets.get(i).getMessage()  %> </td>
+	    
+	    <td> <%= listOfTickets.get(i).getStart_date()  %> </td>
+	    <td> <%= listOfTickets.get(i).getRequested_end_date()  %> </td>
+	    
+		<td> 
 			<%
-		}else{ // if(listOfTickets.get(i).getStatus().getCode().equals("PEND")){
-			%>
-			<%= listOfTickets.get(i).getPriority().getValue() %>
-			<%
-		}
-			  
-		%> 
-	</td>
-    <td> <%= listOfTickets.get(i).getStatus().getValue()  %> </td>
-    
-    <td> <% if(listOfTickets.get(i).getStatus().getCode().equals("ON_GO")){   %>
-    			<form action="SE-CloseTicket?TicketId=<%= listOfTickets.get(i).getId() %>" method="POST">
-    				  <input type="submit" class="close_button" value="Close Ticket">
-    			</form>
-    		<% } %>
-	</td>
-    
-  </tr>
-<%
-		}
+				if(listOfTickets.get(i).getStatus().getCode().equals("ON_GO")){
+					
+					%>
+					<div class="navbar">
+					  <div class="dropdown">
+					    <button class="dropbtn"> <%= listOfTickets.get(i).getPriority().getValue() %>
+					      <i class="fa fa-caret-down"></i>
+					    </button>
+					    <div class="dropdown-content">
+					    <%
+					    List<Priority> listOfPriorities = (List<Priority>) session.getAttribute("listOfPriorities");
+					    System.out.println("\n\n IN JSP 284 : List<Priority> listOfPriorities = " + listOfPriorities + "\n\n");
+						for(Priority priority : listOfPriorities) {
+							if(!priority.getValue().equals( listOfTickets.get(i).getPriority().getValue()) ){
+					    		%>
+									<a href="SE-updateTicketPriroty?TicketId=<%= listOfTickets.get(i).getId() %>&newPriorityValue=<%= priority.getValue() %>"> <%= priority.getValue() %> </a>
+					    		<%
+					    	}else{
+					    		%>
+					    		<%
+					    	}
+					    }
+					    %>
+					    </div>
+					  </div> 
+					</div>
+					<%
+				}else{
+					%>
+					<%= listOfTickets.get(i).getPriority().getValue() %>
+					<%
+				}
+				  
+			%> 
+		</td>
+	    <td> <%= listOfTickets.get(i).getStatus().getValue()  %> </td>
+	    
+	    <td> <% if(listOfTickets.get(i).getStatus().getCode().equals("ON_GO")){   %>
+	    			<form action="SE-CloseTicket?TicketId=<%= listOfTickets.get(i).getId() %>" method="POST">
+	    				  <input type="submit" class="close_button" value="Close Ticket">
+	    			</form>
+	    		<% } %>
+		</td>
+	    
+	  </tr>
+	<%
+			}
 		}
         }
 %>

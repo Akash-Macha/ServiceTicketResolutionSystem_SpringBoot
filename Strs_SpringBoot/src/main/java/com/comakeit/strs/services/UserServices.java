@@ -33,7 +33,6 @@ public class UserServices{
 	@Autowired
 	private IStatusRepository statusRepository;
 	
-	
 	public Role validate(@RequestBody User user) {
 		
 		System.out.println("\n\nIn IUserRepository\n\n");
@@ -102,12 +101,6 @@ public class UserServices{
 
 	private boolean checkForServiceEngineerWithLessWorkedTicketsAndAssignPutInPending(Ticket ticket) {
 		System.out.println("\ncheckForServiceEngineerWithLessWorkedTicketsAndAssignPutInPending(Ticket ticket) {");
-//		Query getEmployeeWithLessWorkedTicket = entityManager.createQuery(""
-//				+ "SELECT serviceEngineer "
-//				+ "FROM ServiceEngineer serviceEngineer "
-//				+ "WHERE serviceEngineer.department.code = :department "
-//				+ "ORDER BY serviceEngineer.total_tickets_worked_on , serviceEngineer.current_high_priority_ticket.id ");
-//		getEmployeeWithLessWorkedTicket.setParameter("department", formData.get(1));
 		
 		List<ServiceEngineer> listOfServiceEngineers = serviceEngineerRepository.getEmployeeWithLessWorkedTicket(
 				ticket.getCategory().getCode() );

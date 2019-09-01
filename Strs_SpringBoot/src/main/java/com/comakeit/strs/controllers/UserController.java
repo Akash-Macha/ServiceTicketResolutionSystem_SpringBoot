@@ -83,6 +83,10 @@ public class UserController {
 					HttpMethod.GET, null, 
 					new ParameterizedTypeReference<List<User>>() {});
 			
+			List<User> listOfUsers = responseEntityUsers.getBody();
+			session.setAttribute("listOfUsers", listOfUsers);
+			System.out.println("n\nlistOfPriorities = " + listOfPriorities + "\n\n");
+			
 			return modelAndView;
 		}else if(role.getCode().equals("END_U")) {
 			
@@ -135,8 +139,7 @@ public class UserController {
 			modelAndView.setViewName("Admin.jsp");
 			return modelAndView;
 		}
-		
-		// else!
+
 		return new ModelAndView();
 	}
 	
@@ -146,7 +149,6 @@ public class UserController {
 		System.out.println("\n\npublic ModelAndView raiseATicket()\n\n");
 	
 		ModelAndView modelAndView = new ModelAndView();
-		
 		
 		modelAndView.setViewName("EndUser.jsp?operation=RaiseTicket");
 
@@ -237,19 +239,18 @@ public class UserController {
 		
 		ticket.setMessage(message);
 		
-		for(Priority eachPriority : listOfPriorities) {
+		for(Priority eachPriority : listOfPriorities)
 			if(eachPriority.getValue().equals(priority))
 				ticket.setPriority( eachPriority );
-		}
+		
 		
 		ticket.setStart_date( LocalDate.parse(start_date) );
 		ticket.setRequested_end_date( LocalDate.parse(requested_end_date) );
 		
 		String requested_by = (String) session.getAttribute("user_name");
-		for(User eachUser : listOfUsers) {
+		for(User eachUser : listOfUsers)
 			if(eachUser.getUser_name().equals(requested_by))
 				ticket.setRequested_by( eachUser );
-		}
 		
 		System.out.println("\n\n**********  In UserController final Ticket object -> " + ticket + "\n***********");
 		
