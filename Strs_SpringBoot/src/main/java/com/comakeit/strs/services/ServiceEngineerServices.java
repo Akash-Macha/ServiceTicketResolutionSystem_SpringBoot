@@ -36,11 +36,13 @@ public class ServiceEngineerServices {
 		
 		Ticket ticket = ticketRepository.findTicketById( Integer.parseInt( updateTicketValues.get(0)  ) );
 	
+		String oldPriorityValue = ticket.getPriority().getValue(); 
+		
 		System.out.println("\npublic String updateTicketPriority(ArrayList<String> updateTicketValues) {\n");
 		System.out.println("TICKET IN " + ticket + "\n");
 		
+		/* updating ticket with newPriority! */
 		String newPriorityValue = (String) updateTicketValues.get(1);
-
 		Priority newPriority = priorityRepository.getPriorityByValue(newPriorityValue);
 		ticket.setPriority( newPriority ); 
 
@@ -51,14 +53,15 @@ public class ServiceEngineerServices {
 //				
 //			(ticket.getPriority().getValue().equals("Medium") &&
 //					newPriorityValue.equals("Low")) ){
-		System.out.println("\nticket.getPriority().getValue() = " + ticket.getPriority().getValue());
+		System.out.println("Ticket PRIORITY BEFORE UPDATE = " + oldPriorityValue);
+		System.out.println("\nUPDATED TICKET PRIORITY - ticket.getPriority().getValue() = " + ticket.getPriority().getValue());
 		System.out.println("newPriorityValue = " + newPriorityValue + "\n");
-		if( (ticket.getPriority().getValue().equals("High") && 
+		if( (oldPriorityValue.equals("High") && 
 				(newPriorityValue.equals("Medium") || newPriorityValue.equals("Low")) ) ||
-			(ticket.getPriority().getValue().equals("Medium") &&
+			(oldPriorityValue.equals("Medium") &&
 					( newPriorityValue.equals("Low") )) ){
 			
-			List<Ticket> otherHighPriortyTickets = ticketRepository.getHighPriorityTicket(
+			List<Ticket> otherHighPriortyTickets = ticketRepository.otherHighPriortyTickets(
 					ticket.getCategory().getName(), 
 					ticket.getAssigned_to().getName());
 			
@@ -83,7 +86,9 @@ public class ServiceEngineerServices {
 				serviceEngineer.setCurrent_high_priority_ticket(otherHighPriortyTicket);
 				serviceEngineer.setCurrent_ticket_start_date(otherHighPriortyTicket.getStart_date());
 
-				serviceEngineerRepository.save(serviceEngineer);
+				ticketRepository.save(ticket); /* updating old ticket */
+				ticketRepository.save(otherHighPriortyTicket); /* updating otherHighPriorityTicket ! */
+				serviceEngineerRepository.save(serviceEngineer); /* updating serviceEngineer */
 				
 				return "true";				
 			}else {

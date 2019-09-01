@@ -32,7 +32,7 @@ public interface ITicketRepository extends JpaRepository<Ticket, Integer>{
 			+ "		ticket.category.name = :category and "
 			+ "		ticket.assigned_to.name = :currentServiceEmployee "
 			+ "ORDER BY ticket.priority.id DESC ")
-	public List<Ticket> getHighPriorityTicket(@Param("category") String category, @Param("currentServiceEmployee") String currentServiceEmployee);
+	public List<Ticket> otherHighPriortyTickets(@Param("category") String category, @Param("currentServiceEmployee") String currentServiceEmployee);
 
 	@Query("SELECT ticket "
 			+ "FROM Ticket ticket "
