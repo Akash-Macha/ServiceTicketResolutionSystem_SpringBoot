@@ -35,9 +35,7 @@ tr:nth-child(even) {
 }
 /*----END: Table --------*/
 
-/*
-* Basic styles
-*/
+/* Basic styles */
 body {
   margin: 0;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
@@ -118,7 +116,11 @@ input[type=submit]:hover {
   border-radius: 5px;
   background-color: #f2f2f2;
   padding: 20px;
+  width: 60%;
+  text-align: center;
+  display: inline-block;
 }
+
 /* -- END: Form styling */
 </style>
 
@@ -178,13 +180,13 @@ if(request.getParameter("operation") != null){
 	if(operation.equals("RaiseTicket")){
 %>
 
-<h3>Raise Ticket:</h3><br>
-
+<h3>Raise Ticket:</h3>
+<div class="container">
 <form action="RaiseTicket" method="POST">
 
 <!-- START: getListOfDepartments - make request to rest!  -->
-Issue Category:
-<select name="IssueCategory"> 
+<label for="Issue Category">Issue Category</label>
+<select id="IssueCategory" name="IssueCategory"> 
 <%
 /*
 		Get the ArrayList from the sessoin
@@ -192,41 +194,41 @@ Issue Category:
 		List<Department> listOfDepartments = (List<Department>) session.getAttribute("listOfDepartments");
 		System.out.println("In JSP----> : " + listOfDepartments);
 		for(Department department : listOfDepartments) {
-			//ArrayList eachDepartment = (ArrayList)eachObject;
 %>
   			<option value="<%= department.getName() %>"><%= department.getName() %></option>
 <%
 		}
 %>
-</select><br>
+</select>
 <!-- END: getListOfDepartments - make request to rest!  -->
 
-<div>
-Message:
-<textarea name="message" placeholder="Type your message here" rows="4" cols="30"></textarea><br>
-</div>
+<label for="message">Message</label>
+<textarea id="subject" name="subject" placeholder="Type your message here!" style="height:120px"></textarea>
 
 <!-- START: getAvailablePriorities - make request to rest!  -->
-Priority:
-<select name="priority"> 
+<label for="priority">Priority</label>
+<select id="priority" name="priority"> 
 <%
 		List<Priority> listOfPriorities = (List<Priority>) session.getAttribute("listOfPriorities");
 		for(Priority priority : listOfPriorities) {
-			//ArrayList eachPriority = (ArrayList)eachObject;
 %>
 			<option value="<%= priority.getValue() %>"><%= priority.getValue() %></option>
 <%
 		}
 %>
-</select><br>
+</select>
 <!-- END: getAvailablePriorities - make request to rest!  -->
 
-Start Date: <input type="date" value="<%= LocalDate.now() %>" name="start_date" id="StartDate" readonly ><br>
-Requested End Date: <input type="date" value="<%= LocalDate.now() %>" name="requested_end_date" id="EndDate" onchange="validateDate();" ><br>
+<label for="Start Date">Start date:</label>
+<input type="date" value="<%= LocalDate.now() %>" name="start_date" id="StartDate" readonly > <br>
 
-<input type="submit"><br>
+<label for="Requested End Date">Requested End Date:</label>
+<input type="date" value="<%= LocalDate.now() %>" name="requested_end_date" id="EndDate" onchange="validateDate();" > <br>
+
+<input type="submit" value="Submit">
 
 </form>
+</div>
 <%
 	}
 %>
