@@ -26,7 +26,8 @@ public class TicketRestController {
 	
 	@RequestMapping(value="/close/{ticket_id}")
 	public String closeTicket(@PathVariable(value="ticket_id") String ticket_id){
-		System.out.println("public String closeTicket(@PathVariable(value=\"ticket_id\") String ticket_id){");
+		System.out.println("\npublic String closeTicket(@PathVariable(value=\"ticket_id\") String ticket_id){");
+		System.out.println("TicketId = " + ticket_id );
 		
 		return  ticketServices.closeTicket(ticket_id);
 	}
@@ -34,7 +35,7 @@ public class TicketRestController {
 	@RequestMapping(value="/otherPendingTickets/{ticket_id}")
 	public String checkPendingTicket(@PathVariable(value="ticket_id") String ticket_id){
 		System.out.println("public String checkOtherPendingTickets(@PathVariable(value=\"ticket_id\") String ticket_id){");
-		
+		System.out.println("TicketId = " + ticket_id );
 		
 		return  ticketServices.checkPendingTicket(ticket_id);
 	}

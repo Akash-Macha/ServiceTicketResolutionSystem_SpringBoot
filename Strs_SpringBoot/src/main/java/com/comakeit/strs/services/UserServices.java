@@ -75,7 +75,7 @@ public class UserServices{
 				System.out.println("}else if(checkForMediumPriorityTicketServiceEmployee(ticket)) {");
 				
 				return "Inserted";
-			}else if(checkForServiceEngineerWithLessWorkedTicketsAndAssignPutInPending(ticket)) {		
+			}else if(checkForServiceEngineerWithLessWorkedTicketsAndAssignPutInPending(ticket)) {
 				System.out.println("}else if(checkForServiceEngineerWithLessWorkedTicketsAndAssignPutInPending(formData)) {");
 				
 				return "Inserted";
@@ -93,6 +93,7 @@ public class UserServices{
 			
 			return "Inserted";
 		}
+		
 		System.out.println("HITTT IN USER SERVICES");
 		System.out.println("\n\n In UserServices ticket = " + ticket + "\n\n");
 		
@@ -100,6 +101,7 @@ public class UserServices{
 	}
 
 	private boolean checkForServiceEngineerWithLessWorkedTicketsAndAssignPutInPending(Ticket ticket) {
+		System.out.println("\ncheckForServiceEngineerWithLessWorkedTicketsAndAssignPutInPending(Ticket ticket) {");
 //		Query getEmployeeWithLessWorkedTicket = entityManager.createQuery(""
 //				+ "SELECT serviceEngineer "
 //				+ "FROM ServiceEngineer serviceEngineer "
@@ -110,8 +112,7 @@ public class UserServices{
 		List<ServiceEngineer> listOfServiceEngineers = serviceEngineerRepository.getEmployeeWithLessWorkedTicket(
 				ticket.getCategory().getCode() );
 		
-		System.out.println("List<ServiceEngineer> listOfServiceEngineers IN **checkForServiceEngineerWithLessWorkedTicketsAndAssignPutInPending** "
-				+ listOfServiceEngineers);
+		System.out.println("Response = " + listOfServiceEngineers);
 		
 		if(listOfServiceEngineers != null && listOfServiceEngineers.size() >= 1) {
 			System.out.println("Inside : getEmployeeWithLessWorkedTicket if(listOfServiceEngineers != null && listOfServiceEngineers.size() >= 1) {");
@@ -130,14 +131,13 @@ public class UserServices{
 	}
 
 	private boolean checkForMediumPriorityTicketServiceEmployee(Ticket ticket) {
-
+		System.out.println("checkForMediumPriorityTicketServiceEmployee(Ticket ticket) {");
 		try {
 			List<ServiceEngineer> serviceEmployeeRecords = serviceEngineerRepository.getMediumPriorityTicketServiceEngineers(
 					ticket.getCategory().getCode(), 
-					ticket.getPriority().getCode());
+					"MED");
 			
-			System.out.println("\nList<ServiceEngineer> serviceEmployeeRecords IN checkForMediumPriorityTicketServiceEmployee => " +
-					serviceEmployeeRecords + "\n");
+			System.out.println("\nResonse = " + serviceEmployeeRecords + "\n");
 			
 			if(serviceEmployeeRecords != null && serviceEmployeeRecords.size() >= 1) {
 				System.out.println("Got a ServiceEmployee who is working on a MEDIUM priority Ticket ");
@@ -173,9 +173,13 @@ public class UserServices{
 	}
 
 	private boolean checkForLowPriorityTicketServiceEmployee(Ticket ticket) {
+		System.out.println("\n\nprivate boolean checkForLowPriorityTicketServiceEmployee(Ticket ticket) {");
+		
 		List<ServiceEngineer> serviceEmployeeRecords = serviceEngineerRepository.findLowPriorityTicketServiceEngineers(
 				ticket.getCategory().getCode(),
 				"LOW");
+		
+		System.out.println("Response = " + serviceEmployeeRecords);
 		
 		if(serviceEmployeeRecords != null && serviceEmployeeRecords.size() >= 1) {
 			

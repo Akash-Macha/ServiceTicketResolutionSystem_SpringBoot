@@ -43,6 +43,8 @@ public class TicketServices {
 	public String closeTicket(String ticket_id) {
 		
 		Optional<Ticket> optionalTicket = ticketRepository.findById( Integer.parseInt(ticket_id) );
+		System.out.println("\npublic String closeTicket(String ticket_id) {");
+		System.out.println("optionalTicket = " + optionalTicket);
 		
 		if(optionalTicket.isPresent()) {
 			Ticket ticket = optionalTicket.get();
@@ -74,25 +76,30 @@ public class TicketServices {
 
 	public String checkPendingTicket(String ticket_id) {
 		Optional<Ticket> optionalTicket = ticketRepository.findById( Integer.parseInt(ticket_id) );
+		System.out.println("optionalTicket = " + optionalTicket);
 		
 		if(optionalTicket.isPresent()) {
-			Ticket ticket = optionalTicket.get();
-			Integer user_id = ticket.getAssigned_to().getId();
+			Ticket closedTicket = optionalTicket.get();
 			
-			List<Ticket> listOfPendingTickets = ticketRepository.getListOfPendingTickets(user_id );
+			Integer user_id = closedTicket.getAssigned_to().getId();
 			
+			List<Ticket> listOfPendingTickets = ticketRepository.getListOfPendingTickets(user_id);
+			System.out.println("listOfPendingTickets = " + listOfPendingTickets);
+			
+			/* we're using ticket_id (which has been closed) to check other PENDING tickets of the same EmployeeS */
 			if(listOfPendingTickets != null && listOfPendingTickets.size() >= 1) {
 				
 				Ticket pendingTicket = listOfPendingTickets.get(0);
 				pendingTicket.setStatus( (Status) statusRepository.getStatus("ON_GO") );
 				
-				/* updating ServiceEngineer Table */
+				/* updating ServiceEngineer Table 
+				 * Assigning this Pending Ticket to the Current ServiceEmployee */
 				ServiceEngineer serviceEngineer = serviceEngineerRepository.getServiceEngineerByUserId(user_id);
 				serviceEngineer.setCurrent_high_priority_ticket( (Ticket) pendingTicket );
-				serviceEngineer.setCurrent_ticket_start_date( ticket.getStart_date() );
-				serviceEngineer.setPriority( (Priority) ticket.getPriority() ); 
+				serviceEngineer.setCurrent_ticket_start_date( pendingTicket.getStart_date() );
+				serviceEngineer.setPriority( (Priority) pendingTicket.getPriority() ); 
 
-				ticketRepository.save(ticket);
+				ticketRepository.save(pendingTicket);
 				serviceEngineerRepository.save(serviceEngineer);
 				
 				return "true";

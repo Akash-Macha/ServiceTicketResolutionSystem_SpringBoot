@@ -21,6 +21,8 @@ public class ServiceEngineerRestSController {
 
 	@RequestMapping(value = "/updateTicketPriority")
 	public String updateTicketPriority(@RequestBody ArrayList<String> updateTicketValues) {
+		System.out.println("\n\npublic String updateTicketPriority(@RequestBody ArrayList<String> updateTicketValues) {");
+		System.out.println("updateTicketValues = " + updateTicketValues);
 
 		String status = serviceEngineerServices.updateTicketPriority(updateTicketValues);
 

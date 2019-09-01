@@ -46,15 +46,23 @@ public class ServiceEngineerServices {
 
 		ticketRepository.save(ticket);
 		
+//		if( (ticket.getPriority().getValue().equals("High") && 
+//				(newPriorityValue.equals("Medium") || newPriorityValue.equals("Low")) ) ||
+//				
+//			(ticket.getPriority().getValue().equals("Medium") &&
+//					newPriorityValue.equals("Low")) ){
+		System.out.println("\nticket.getPriority().getValue() = " + ticket.getPriority().getValue());
+		System.out.println("newPriorityValue = " + newPriorityValue + "\n");
 		if( (ticket.getPriority().getValue().equals("High") && 
 				(newPriorityValue.equals("Medium") || newPriorityValue.equals("Low")) ) ||
-				
 			(ticket.getPriority().getValue().equals("Medium") &&
-					newPriorityValue.equals("Low")) ){
+					( newPriorityValue.equals("Low") )) ){
 			
 			List<Ticket> otherHighPriortyTickets = ticketRepository.getHighPriorityTicket(
 					ticket.getCategory().getName(), 
 					ticket.getAssigned_to().getName());
+			
+			System.out.println("otherHighPriortyTickets = " + otherHighPriortyTickets);
 			
 			if(otherHighPriortyTickets != null && otherHighPriortyTickets.size() >= 1) {
 				System.out.println("We have other HIHG Priority Ticekt !!! ");
@@ -69,8 +77,7 @@ public class ServiceEngineerServices {
 				
 				/* updating ServiceEngineer table with otherHighPriorityTicket  */
 				User user = ticket.getAssigned_to();
-
-				ServiceEngineer serviceEngineer = serviceEngineerRepository.getServiceEngineerByUserId(user.getId()); //(ServiceEngineer) getServiceEngineer.getResultList().get(0);
+				ServiceEngineer serviceEngineer = serviceEngineerRepository.getServiceEngineerByUserId(user.getId());
 				
 				serviceEngineer.setPriority( (Priority) otherHighPriortyTicket.getPriority() );
 				serviceEngineer.setCurrent_high_priority_ticket(otherHighPriortyTicket);
@@ -92,15 +99,12 @@ public class ServiceEngineerServices {
 				ServiceEngineer serviceEngineer = serviceEngineerRepository.getServiceEngineerByUserId(user.getId());
 				
 				serviceEngineer.setPriority( (Priority) ticket.getPriority() );
-			
-				System.out.println("CHECK");
 				
 				serviceEngineerRepository.save(serviceEngineer);
 				
 				return "true";
 			}
 
-			
 		} else {
 			/*
 			 *  Low -> High | Low -> Medium | Medium -> High 

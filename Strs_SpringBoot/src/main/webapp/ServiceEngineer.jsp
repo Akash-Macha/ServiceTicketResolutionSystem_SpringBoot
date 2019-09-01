@@ -293,7 +293,7 @@ System.out.println("\nIN SE.jsp line 254 Tickets = " + listOfTickets + "\n\n");
 			    		%>
 							<a href="SE-updateTicketPriroty?TicketId=<%= listOfTickets.get(i).getId() %>&newPriorityValue=<%= priority.getValue() %>"> <%= priority.getValue() %> </a>
 			    		<%
-			    	}else{ 
+			    	}else{
 			    		%>
 			    		<%
 			    	}

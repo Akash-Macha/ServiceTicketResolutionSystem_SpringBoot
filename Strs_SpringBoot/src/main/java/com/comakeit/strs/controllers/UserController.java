@@ -251,7 +251,7 @@ public class UserController {
 				ticket.setRequested_by( eachUser );
 		}
 		
-		System.out.println("\n\n  In UserController final Ticket object -> " + ticket + "\n\n\n");
+		System.out.println("\n\n**********  In UserController final Ticket object -> " + ticket + "\n***********");
 		
 		/* insert ticket and assign to a serviceEmployee */
 		String status = restTemplate.postForObject(

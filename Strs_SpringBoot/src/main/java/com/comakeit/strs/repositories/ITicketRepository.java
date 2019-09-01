@@ -38,7 +38,7 @@ public interface ITicketRepository extends JpaRepository<Ticket, Integer>{
 			+ "FROM Ticket ticket "
 			+ "WHERE ticket.assigned_to.id = :user_id and "
 			+ "		 ticket.status.code = 'PEND' "
-			+ "ORDER BY ticket.priority.id DESC, start_date ")
+			+ "ORDER BY ticket.priority.id DESC, ticket.start_date ")
 	public List<Ticket> getListOfPendingTickets(@Param("user_id") Integer user_id);
 
 	@Query("SELECT ticket "
