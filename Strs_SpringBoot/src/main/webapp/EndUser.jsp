@@ -14,14 +14,14 @@
 <head>
 <!-- START: styling for Table [ tickets ] displaying -->
 <style>
-	*{
-	text-align:center
-	}
+*{
+	text-align: center
+}
 /* ----START: Table------ */
 table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
-  width: 90%;
+  width: 95%;
 }
 
 td, th {
@@ -34,7 +34,14 @@ tr:nth-child(even) {
   background-color: #dddddd;
 }
 /*----END: Table --------*/
-
+/* START- align Div in center : class="center" */
+.center {
+  margin: auto;
+  width: 95%;
+  /*border: 3px solid #73AD21;*/
+  padding: 10px;
+}
+/* END- align Div in center : class="center" */
 /* Basic styles */
 body {
   margin: 0;
@@ -61,7 +68,7 @@ code {
 
 /* to remove underline from achor tags */
 a, u {
-    text-decoration: none;;
+    text-decoration: none;
 }
 
 /*-- START: styling for Button-- */
@@ -116,12 +123,16 @@ input[type=submit]:hover {
   border-radius: 5px;
   background-color: #f2f2f2;
   padding: 20px;
-  width: 60%;
+  width: 50%;
   text-align: center;
   display: inline-block;
 }
 
 /* -- END: Form styling */
+
+#StartDate{
+    margin-bottom: 8px;
+}
 </style>
 
 <script type="text/javascript">
@@ -185,7 +196,7 @@ if(request.getParameter("operation") != null){
 <form action="RaiseTicket" method="POST">
 
 <!-- START: getListOfDepartments - make request to rest!  -->
-<label for="Issue Category">Issue Category</label>
+<label for="IssueCategory">Issue Category</label>
 <select id="IssueCategory" name="IssueCategory"> 
 <%
 /*
@@ -203,7 +214,7 @@ if(request.getParameter("operation") != null){
 <!-- END: getListOfDepartments - make request to rest!  -->
 
 <label for="message">Message</label>
-<textarea id="subject" name="subject" placeholder="Type your message here!" style="height:120px"></textarea>
+<textarea id="message" name="message" placeholder="Type your message here!" style="height:120px"></textarea>
 
 <!-- START: getAvailablePriorities - make request to rest!  -->
 <label for="priority">Priority</label>
@@ -219,11 +230,13 @@ if(request.getParameter("operation") != null){
 </select>
 <!-- END: getAvailablePriorities - make request to rest!  -->
 
-<label for="Start Date">Start date:</label>
-<input type="date" value="<%= LocalDate.now() %>" name="start_date" id="StartDate" readonly > <br>
+<label for="StartDate">Start date:</label>
+<input type="date" value="<%= LocalDate.now() %>" id="StartDate" name="start_date" id="StartDate" readonly >
+<br>
 
-<label for="Requested End Date">Requested End Date:</label>
-<input type="date" value="<%= LocalDate.now() %>" name="requested_end_date" id="EndDate" onchange="validateDate();" > <br>
+<label for="RequestedEndDate">Requested End Date:</label>
+<input type="date" value="<%= LocalDate.now() %>" name="requested_end_date" id="RequestedEndDate" onchange="validateDate();" >
+<br><br>
 
 <input type="submit" value="Submit">
 
@@ -273,7 +286,7 @@ if(request.getParameter("operation") != null){
 		else{
 
 %>
-
+<div class="center">
 <h2>All Tickets</h2>
 <table>
 	<!-- Table heading -->
@@ -315,6 +328,7 @@ if(request.getParameter("operation") != null){
 %>
 
 </table>
+</div>
 
 <!-- <a href="EndUser.jsp">Home</a>  -->
 <%
