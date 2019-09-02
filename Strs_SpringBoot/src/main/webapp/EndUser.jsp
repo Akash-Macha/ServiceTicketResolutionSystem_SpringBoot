@@ -199,9 +199,7 @@ if(request.getParameter("operation") != null){
 <label for="IssueCategory">Issue Category</label>
 <select id="IssueCategory" name="IssueCategory"> 
 <%
-/*
-		Get the ArrayList from the sessoin
-*/
+		/* Get the ArrayList from the sessoin */
 		List<Department> listOfDepartments = (List<Department>) session.getAttribute("listOfDepartments");
 		System.out.println("In JSP----> : " + listOfDepartments);
 		for(Department department : listOfDepartments) {

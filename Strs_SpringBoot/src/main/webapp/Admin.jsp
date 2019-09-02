@@ -61,6 +61,20 @@ tr:nth-child(even) {
 			<h2>Please change your user name!</h2>
 			<%
 		}
+	}
+	
+	if(request.getParameter("status") != null){
+		String status = request.getParameter("status");
+		
+		if(status.equals("addedNewDepartment")){
+			%>
+			<h2>Department Added Successfully!</h2>
+			<%
+		}else if(status.equals("notAddedNewDepartment")){
+			%>
+			<h2>Please check your Department Name / Code !</h2>
+			<%
+		}
 		
 	}
 %>
@@ -74,12 +88,16 @@ tr:nth-child(even) {
 <a href="Admin.jsp?operation=Add_user">Add a User</a><br>
 <a href="Admin.jsp?operation=Add_Service_Engineer">Add a Service Engineer</a><br>
 
+<a href="admin-ShowDepartmentsAndAddDepartment">View Departments or Add a Department</a><br>
+
+<a href="admin-ShowStatusesAndAddStatuses">View Statuses or Add a Status</a><br>
+<a href="admin-ShowRolesAndAddRole">View Role's or Add a Role</a><br>
+<a href="admin-ShowPrioritiesAndAddPriority">View Tickets Priorities or Add a priority</a><br>
 </div>
 
 <form action="Logout" method="POST">
 	<input type="submit" class="button button2" value="Logout">
 </form>
-
 
 
 <%
@@ -153,8 +171,8 @@ if(request.getParameter("operation") != null){
 				User Name: <input type="text" name="user_name" ><br>
 				Password: <input type="password" name="password"><br>
 
-Role:
-<select name="departmentName"> 
+<label for="departmentName">Role:</label> 
+<select id="departmentName" name="departmentName"> 
 <%
 		List<Department> listOfDepartments = (List<Department>) session.getAttribute("listOfDepartments");
 		System.out.println("In JSP----> : " + listOfDepartments);
@@ -169,6 +187,42 @@ Role:
 			</form>
 			
 			<%
+		}else if(operation.equals("ShowDepartmentsAndAddDepartment")){
+			%>
+			<form action="admin-addNewDepartment">
+			<table>
+			  <tr>
+			    <th>Id</th>
+			    <th>Name</th>
+			    <th>Code</th>
+			  </tr>
+			  
+<%
+				/* Get the ArrayList from the sessoin */
+				List<Department> listOfDepartments = (List<Department>) session.getAttribute("listOfDepartments");
+				System.out.println("In JSP----> : " + listOfDepartments);
+				for(Department department : listOfDepartments) {
+%>
+					<tr>
+	  					<td><%= department.getId() %></td>
+	  					<td><%= department.getName() %></td>
+	  					<td><%= department.getCode() %></td>
+  					</tr>
+<%
+				}
+%>
+	
+			</table>
+			
+			<label>Add New Department</label><br>
+			<label>Department Name: </label><input type="text" name="newDepartmentName" onkeydown="checkIsEmpty();"><br>
+			<label>Department Code: </label><input type="text" name="newDepartmentCode" onkeydown="checkIsEmpty();"><br>
+			
+			<input type="submit" name="submitNewDepartment">
+			</form>
+			<%
+		}else if(operation.equals("ShowDepartmentsAndAddDepartment")){
+			
 		}
 	}
 %>
