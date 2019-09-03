@@ -1,5 +1,6 @@
 package com.comakeit.strs.controllers;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.comakeit.strs.constants.Constants;
 import com.comakeit.strs.entites.Department;
 import com.comakeit.strs.entites.ServiceEngineer;
+import com.comakeit.strs.entites.Status;
 import com.comakeit.strs.entites.User;
 
 @Controller
@@ -109,8 +111,6 @@ public class AdminController {
 		serviceEngineer.setUser(user);
 		
 		System.out.println("\n\nuser after saving = " + user + "\n");
-		
-		
 		System.out.println("serviceEngineer object = " + serviceEngineer);
 		
 		String statusOfServiceEngineer = restTemplate.postForObject(
@@ -130,4 +130,86 @@ public class AdminController {
 		return modelAndView;
 	}
 	
+//	admin-ShowDepartmentsAndAddDepartment
+	@RequestMapping("admin-ShowDepartmentsAndAddDepartment")
+	public ModelAndView showDepartmentsAndAddDepartment(HttpSession session) {
+		/* set listOfDepartments */
+		ResponseEntity<List<Department>> responseEntityDepartments = restTemplate.exchange(
+				Constants.url + "/user" +  "/getDepartments",
+		HttpMethod.GET, null, 
+		new ParameterizedTypeReference<List<Department>>() {});
+		
+		List<Department> listOfDepartments = responseEntityDepartments.getBody();
+		
+		session.setAttribute("listOfDepartments", listOfDepartments);
+		System.out.println("\nlistOfDepartments = > " + listOfDepartments + "\n\n");
+		
+		ModelAndView modelAndView = new ModelAndView("Admin.jsp?operation=ShowDepartmentsAndAddDepartment");
+		return modelAndView;
+	}
+	
+//	admin-ShowStatusesAndAddStatuses
+	@RequestMapping("admin-ShowStatusesAndAddStatuses")
+	public ModelAndView showStatusesAndAddStatuses(HttpSession session) {
+		/* set listOfDepartments */
+		ResponseEntity<List<Status>> responseEntityDepartments = restTemplate.exchange(
+				Constants.url + "/status" +  "/getAllStatuses",
+		HttpMethod.GET, null, 
+		new ParameterizedTypeReference<List<Status>>() {});
+		
+		List<Status> listOfStatuses = responseEntityDepartments.getBody();
+		
+		session.setAttribute("listOfStatuses", listOfStatuses);
+		System.out.println("\nlistOfStatuses = > " + listOfStatuses + "\n\n");
+		
+		ModelAndView modelAndView = new ModelAndView("Admin.jsp?operation=ShowDepartmentsAndAddDepartment");
+		return modelAndView;
+	}
+	
+//	admin-ShowRolesAndAddRole
+	
+//	admin-ShowPrioritiesAndAddPriority
+	
+	
+	@RequestMapping("admin-addNewDepartment")
+	public ModelAndView addNewDepartment(
+			String newDepartmentName,
+			String newDepartmentCode,
+			
+			HttpSession session) {
+		ModelAndView modelAndView = new ModelAndView();
+		
+		HashMap<String, String> newDepartmentDetails = new HashMap<String, String>();
+		newDepartmentDetails.put("newDepartmentName", newDepartmentName);
+		newDepartmentDetails.put("newDepartmentCode", newDepartmentCode);
+		
+		System.out.println("CHECK -> " + newDepartmentDetails.get("newDepartmentCode"));
+
+		
+		String statusOfNewDepartment = restTemplate.postForObject(
+				Constants.url + "/admin/addNewDepartment", 
+				newDepartmentDetails,
+				String.class);
+				
+		System.out.println("\n\n--> statusOfNewDepartment = " + statusOfNewDepartment);
+		if(statusOfNewDepartment.equals("added")) {
+			/* set listOfDepartments */
+			ResponseEntity<List<Department>> responseEntityDepartments = restTemplate.exchange(
+					Constants.url + "/user" +  "/getDepartments",
+			HttpMethod.GET, null, 
+			new ParameterizedTypeReference<List<Department>>() {});
+			
+			List<Department> listOfDepartments = responseEntityDepartments.getBody();
+			
+			session.setAttribute("listOfDepartments", listOfDepartments);
+			System.out.println("\nlistOfDepartments = > " + listOfDepartments + "\n\n");
+			
+			modelAndView.setViewName("Admin.jsp?status=addedNewDepartment&operation=ShowDepartmentsAndAddDepartment");
+		}else if(statusOfNewDepartment.equals("notAdded")) {
+//			notAddedNewDepartment
+			modelAndView.setViewName("Admin.jsp?status=notAddedNewDepartment&operation=ShowDepartmentsAndAddDepartment");
+		}
+		
+		return modelAndView;
+	}
 }

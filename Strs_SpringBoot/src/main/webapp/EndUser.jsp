@@ -14,14 +14,14 @@
 <head>
 <!-- START: styling for Table [ tickets ] displaying -->
 <style>
-	*{
-	text-align:center
-	}
+*{
+	text-align: center
+}
 /* ----START: Table------ */
 table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
-  width: 90%;
+  width: 95%;
 }
 
 td, th {
@@ -34,10 +34,15 @@ tr:nth-child(even) {
   background-color: #dddddd;
 }
 /*----END: Table --------*/
-
-/*
-* Basic styles
-*/
+/* START- align Div in center : class="center" */
+.center {
+  margin: auto;
+  width: 95%;
+  /*border: 3px solid #73AD21;*/
+  padding: 10px;
+}
+/* END- align Div in center : class="center" */
+/* Basic styles */
 body {
   margin: 0;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
@@ -63,7 +68,7 @@ code {
 
 /* to remove underline from achor tags */
 a, u {
-    text-decoration: none;;
+    text-decoration: none;
 }
 
 /*-- START: styling for Button-- */
@@ -87,6 +92,47 @@ a, u {
 }
 /*-- END: styling for Button-- */
 
+/* -- START: Form styling */
+* {box-sizing: border-box;}
+
+input[type=text], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+}
+
+input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+.container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+  width: 50%;
+  text-align: center;
+  display: inline-block;
+}
+
+/* -- END: Form styling */
+
+#StartDate{
+    margin-bottom: 8px;
+}
 </style>
 
 <script type="text/javascript">
@@ -145,55 +191,55 @@ if(request.getParameter("operation") != null){
 	if(operation.equals("RaiseTicket")){
 %>
 
-<h3>Raise Ticket:</h3><br>
-
+<h3>Raise Ticket:</h3>
+<div class="container">
 <form action="RaiseTicket" method="POST">
 
 <!-- START: getListOfDepartments - make request to rest!  -->
-Issue Category:
-<select name="IssueCategory"> 
+<label for="IssueCategory">Issue Category</label>
+<select id="IssueCategory" name="IssueCategory"> 
 <%
-/*
-		Get the ArrayList from the sessoin
-*/
+		/* Get the ArrayList from the sessoin */
 		List<Department> listOfDepartments = (List<Department>) session.getAttribute("listOfDepartments");
 		System.out.println("In JSP----> : " + listOfDepartments);
 		for(Department department : listOfDepartments) {
-			//ArrayList eachDepartment = (ArrayList)eachObject;
 %>
   			<option value="<%= department.getName() %>"><%= department.getName() %></option>
 <%
 		}
 %>
-</select><br>
+</select>
 <!-- END: getListOfDepartments - make request to rest!  -->
 
-<div>
-Message:
-<textarea name="message" placeholder="Type your message here" rows="4" cols="30"></textarea><br>
-</div>
+<label for="message">Message</label>
+<textarea id="message" name="message" placeholder="Type your message here!" style="height:120px"></textarea>
 
 <!-- START: getAvailablePriorities - make request to rest!  -->
-Priority:
-<select name="priority"> 
+<label for="priority">Priority</label>
+<select id="priority" name="priority"> 
 <%
 		List<Priority> listOfPriorities = (List<Priority>) session.getAttribute("listOfPriorities");
 		for(Priority priority : listOfPriorities) {
-			//ArrayList eachPriority = (ArrayList)eachObject;
 %>
 			<option value="<%= priority.getValue() %>"><%= priority.getValue() %></option>
 <%
 		}
 %>
-</select><br>
+</select>
 <!-- END: getAvailablePriorities - make request to rest!  -->
 
-Start Date: <input type="date" value="<%= LocalDate.now() %>" name="start_date" id="StartDate" readonly ><br>
-Requested End Date: <input type="date" value="<%= LocalDate.now() %>" name="requested_end_date" id="EndDate" onchange="validateDate();" ><br>
+<label for="StartDate">Start date:</label>
+<input type="date" value="<%= LocalDate.now() %>" id="StartDate" name="start_date" id="StartDate" readonly >
+<br>
 
-<input type="submit"><br>
+<label for="RequestedEndDate">Requested End Date:</label>
+<input type="date" value="<%= LocalDate.now() %>" name="requested_end_date" id="RequestedEndDate" onchange="validateDate();" >
+<br><br>
+
+<input type="submit" value="Submit">
 
 </form>
+</div>
 <%
 	}
 %>
@@ -238,7 +284,7 @@ Requested End Date: <input type="date" value="<%= LocalDate.now() %>" name="requ
 		else{
 
 %>
-
+<div class="center">
 <h2>All Tickets</h2>
 <table>
 	<!-- Table heading -->
@@ -280,6 +326,7 @@ Requested End Date: <input type="date" value="<%= LocalDate.now() %>" name="requ
 %>
 
 </table>
+</div>
 
 <!-- <a href="EndUser.jsp">Home</a>  -->
 <%

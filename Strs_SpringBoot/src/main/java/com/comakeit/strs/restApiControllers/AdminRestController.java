@@ -1,5 +1,6 @@
 package com.comakeit.strs.restApiControllers;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,4 +52,13 @@ public class AdminRestController {
 		return adminServices.addServiceEngineer(serviceEngineer);
 	}
 	
+//	addNewDepartment
+	@RequestMapping(value= "/addNewDepartment",
+			method = RequestMethod.POST)
+	public String addNewDepartment(@RequestBody HashMap<String, String> newDepartmentDetails) {
+		System.out.println("\npublic String addNewDepartment(@RequestBody HashMap<String, String> newDepartmentDetails) {");
+		System.out.println("newDepartmentDetails = " + newDepartmentDetails);
+	
+		return adminServices.addNewDepartment(newDepartmentDetails);
+	}
 }
