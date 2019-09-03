@@ -75,7 +75,7 @@ public class ServiceEngineerController {
 		
 		System.out.println("\n*********!! Values in serviceEngineer Controller : " + updateTicketValues);
 		
-		/* */
+		/* updateTicketPriority */
 		String status = restTemplate.postForObject(
 				Constants.url + "/serviceEngineer/updateTicketPriority", 
 				updateTicketValues,
@@ -83,7 +83,7 @@ public class ServiceEngineerController {
 				
 		System.out.println("\n\n--> Status = " + status);
 		
-////		/* REFRESHING  ListOfTIckets */
+		/* REFRESHING  ListOfTIckets */
 		ResponseEntity<List<Ticket>> responseEntityUsers= restTemplate.exchange(
 				Constants.url + "/ticket" +  "/getAll" + "/" + session.getAttribute("user_name"),
 				HttpMethod.GET, null, 
@@ -100,7 +100,7 @@ public class ServiceEngineerController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "/SE-CloseTicket", ///{TicketId}/{newPriority}", 
+	@RequestMapping(value = "/SE-CloseTicket", 
 			method= RequestMethod.POST)
 	public ModelAndView closeTicket(HttpServletRequest request,  HttpSession session) {
 		

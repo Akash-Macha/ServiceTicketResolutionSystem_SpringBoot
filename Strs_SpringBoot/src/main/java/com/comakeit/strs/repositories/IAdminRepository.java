@@ -13,7 +13,5 @@ public interface IAdminRepository extends JpaRepository<User, Integer>{
 
 	@Query("SELECT user FROM User user")
 	List<User> getAllUses();
-	
-
 
 }

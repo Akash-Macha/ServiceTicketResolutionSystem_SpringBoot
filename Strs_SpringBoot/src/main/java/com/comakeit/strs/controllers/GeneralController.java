@@ -15,7 +15,6 @@ public class GeneralController {
 		ModelAndView modelAndView = new ModelAndView();
 	
 		modelAndView.setViewName("index.jsp?");
-		
 
 		return modelAndView;
 	}
