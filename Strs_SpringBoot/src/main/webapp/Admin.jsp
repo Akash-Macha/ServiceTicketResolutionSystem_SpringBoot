@@ -90,9 +90,9 @@ tr:nth-child(even) {
 
 <a href="admin-ShowDepartmentsAndAddDepartment">View Departments or Add a Department</a><br>
 
-<a href="admin-ShowStatusesAndAddStatuses">View Statuses or Add a Status</a><br>
+<!-- <a href="admin-ShowStatusesAndAddStatuses">View Statuses or Add a Status</a><br>
 <a href="admin-ShowRolesAndAddRole">View Role's or Add a Role</a><br>
-<a href="admin-ShowPrioritiesAndAddPriority">View Tickets Priorities or Add a priority</a><br>
+<a href="admin-ShowPrioritiesAndAddPriority">View Tickets Priorities or Add a priority</a><br> -->
 </div>
 
 <form action="Logout" method="POST">

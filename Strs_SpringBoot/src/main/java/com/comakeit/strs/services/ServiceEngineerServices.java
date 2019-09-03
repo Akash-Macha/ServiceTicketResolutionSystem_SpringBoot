@@ -47,12 +47,7 @@ public class ServiceEngineerServices {
 		ticket.setPriority( newPriority ); 
 
 		ticketRepository.save(ticket);
-		
-//		if( (ticket.getPriority().getValue().equals("High") && 
-//				(newPriorityValue.equals("Medium") || newPriorityValue.equals("Low")) ) ||
-//				
-//			(ticket.getPriority().getValue().equals("Medium") &&
-//					newPriorityValue.equals("Low")) ){
+
 		System.out.println("Ticket PRIORITY BEFORE UPDATE = " + oldPriorityValue);
 		System.out.println("\nUPDATED TICKET PRIORITY - ticket.getPriority().getValue() = " + ticket.getPriority().getValue());
 		System.out.println("newPriorityValue = " + newPriorityValue + "\n");
@@ -166,14 +161,7 @@ public class ServiceEngineerServices {
 		ArrayList AverageTimeTakenPerSeverity = new ArrayList();
 		
 		for(Priority priority : listOfPriorities ) {
-//			Query getStatsPerSeverity = entityManager.createQuery(""
-//					+ "SELECT AVG(ticket.closed_date - ticket.start_date) "
-//					+ "FROM Ticket ticket "
-//					+ "WHERE ticket.priority.id = :priority_id and"
-//					+ "		ticket.status.code = 'CLSD'");
-			
-//			getStatsPerSeverity.setParameter("priority_id", priority.getId());
-			
+		
 			ArrayList priorityAndAvg = new ArrayList();
 			
 			priorityAndAvg.add(priority.getValue());

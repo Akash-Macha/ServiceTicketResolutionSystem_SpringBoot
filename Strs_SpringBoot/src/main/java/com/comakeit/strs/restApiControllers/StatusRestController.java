@@ -16,8 +16,8 @@ public class StatusRestController {
 	@Autowired
 	private IStatusRepository statusRepository;
 	
-	@RequestMapping(value="/getAllStatuses")///{user_name}")
-	public List<Status> getAverageTimeTakenPerEngineer() {// @PathVariable(value="user_name") String user_name){
+	@RequestMapping(value="/getAllStatuses")
+	public List<Status> getAverageTimeTakenPerEngineer() {
 		return statusRepository.findAll();
 	}
 }

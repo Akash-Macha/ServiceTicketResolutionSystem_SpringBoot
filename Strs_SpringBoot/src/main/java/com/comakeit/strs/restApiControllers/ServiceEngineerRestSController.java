@@ -29,21 +29,21 @@ public class ServiceEngineerRestSController {
 		return status;
 	}
 
-	@RequestMapping(value="/getStats")///{user_name}")
-	public ArrayList getAverageTimeTakenPerEngineer() {// @PathVariable(value="user_name") String user_name){
+	@RequestMapping(value="/getStats")
+	public ArrayList getAverageTimeTakenPerEngineer() {
 		System.out.println("public ArrayList getAverageTimeTakenPerEngineer(@PathVariable(value=\"user_name\") String user_name){");
 		
-		return  serviceEngineerServices.getAverageTimeTakenPerEngineer();//user_name);
+		return  serviceEngineerServices.getAverageTimeTakenPerEngineer();
 	}
 	
-	@RequestMapping(value="/getStatsOfSeverity")///{user_name}")
+	@RequestMapping(value="/getStatsOfSeverity")
 	public ArrayList getAverageTimeTakenPerServerity() {
 		System.out.println("public ArrayList getAverageTimeTakenPerServerity() {");
 		
-		return  serviceEngineerServices.getAverageTimeTakenPerServerity();//user_name);
+		return  serviceEngineerServices.getAverageTimeTakenPerServerity();
 	}
 	
-	@RequestMapping(value="/getAgingOfOpenTicket/{user_name}")///{user_name}")
+	@RequestMapping(value="/getAgingOfOpenTicket/{user_name}")
 	public List<Ticket> getAgingOfOpenTicket(@PathVariable(value="user_name") String user_name) {
 		System.out.println("public ArrayList getAverageTimeTakenPerServerity() {");
 		

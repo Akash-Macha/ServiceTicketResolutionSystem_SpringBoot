@@ -52,7 +52,6 @@ public class TicketServices {
 			ticket.setClosed_date( LocalDate.now() );
 			ticket.setStatus( (Status) statusRepository.getStatus("CLSD") );
 			
-			
 			/* upadting serviceEngineer */
 			User user= ticket.getAssigned_to();
 			ServiceEngineer serviceEngineer = serviceEngineerRepository.getServiceEngineerByUserId( (Integer) user.getId() );
