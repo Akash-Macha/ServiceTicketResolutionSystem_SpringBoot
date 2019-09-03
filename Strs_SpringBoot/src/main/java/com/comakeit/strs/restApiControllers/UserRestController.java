@@ -24,7 +24,6 @@ public class UserRestController {
 	@Autowired
 	private UserServices userServices ;
 
-
 	@RequestMapping(value= "/Validate",
 					method = RequestMethod.POST)
 	public Role validateAndGetRole(@RequestBody User user) {

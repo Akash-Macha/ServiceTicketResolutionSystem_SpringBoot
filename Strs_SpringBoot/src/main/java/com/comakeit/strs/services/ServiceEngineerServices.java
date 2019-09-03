@@ -38,9 +38,6 @@ public class ServiceEngineerServices {
 	
 		String oldPriorityValue = ticket.getPriority().getValue(); 
 		
-		System.out.println("\npublic String updateTicketPriority(ArrayList<String> updateTicketValues) {\n");
-		System.out.println("TICKET IN " + ticket + "\n");
-		
 		/* updating ticket with newPriority! */
 		String newPriorityValue = (String) updateTicketValues.get(1);
 		Priority newPriority = priorityRepository.getPriorityByValue(newPriorityValue);
@@ -48,9 +45,6 @@ public class ServiceEngineerServices {
 
 		ticketRepository.save(ticket);
 
-		System.out.println("Ticket PRIORITY BEFORE UPDATE = " + oldPriorityValue);
-		System.out.println("\nUPDATED TICKET PRIORITY - ticket.getPriority().getValue() = " + ticket.getPriority().getValue());
-		System.out.println("newPriorityValue = " + newPriorityValue + "\n");
 		if( (oldPriorityValue.equals("High") && 
 				(newPriorityValue.equals("Medium") || newPriorityValue.equals("Low")) ) ||
 			(oldPriorityValue.equals("Medium") &&
@@ -60,10 +54,7 @@ public class ServiceEngineerServices {
 					ticket.getCategory().getName(), 
 					ticket.getAssigned_to().getName());
 			
-			System.out.println("otherHighPriortyTickets = " + otherHighPriortyTickets);
-			
 			if(otherHighPriortyTickets != null && otherHighPriortyTickets.size() >= 1) {
-				System.out.println("We have other HIHG Priority Ticekt !!! ");
 				
 				Ticket otherHighPriortyTicket = otherHighPriortyTickets.get(0);
 				
@@ -92,7 +83,6 @@ public class ServiceEngineerServices {
 				 * 
 				 *  In that case we will only modify the Priority of the current ticket in Ticket (already done) and ServiceEngineer table 
 				 *  he/she should be working on that particular ticket itself */
-				System.out.println("ELSE BLOCK after if(otherHighPriortyTickets != null && otherHighPriortyTickets.size() >= 1) {");
 			
 				/* updating ServiceEngineer table with otherHighPriorityTicket  */
 				User user = ticket.getAssigned_to();
@@ -178,9 +168,6 @@ public class ServiceEngineerServices {
 			
 			AverageTimeTakenPerSeverity.add(priorityAndAvg);
 		}
-		System.out.println("**********************\n");
-		System.out.println("AverageTimeTakenPerSeverity = " + AverageTimeTakenPerSeverity);
-		System.out.println("**********************\n");
 		
 		return AverageTimeTakenPerSeverity;
 	}

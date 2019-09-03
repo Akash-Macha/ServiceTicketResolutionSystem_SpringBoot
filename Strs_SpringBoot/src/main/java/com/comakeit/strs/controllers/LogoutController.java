@@ -13,7 +13,6 @@ public class LogoutController {
 	
 	@RequestMapping("Logout")
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("\\n\\nIn logout \\n\\n");
 		
 		/**/
 		response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.

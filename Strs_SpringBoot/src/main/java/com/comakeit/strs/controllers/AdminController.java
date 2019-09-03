@@ -45,16 +45,12 @@ public class AdminController {
 //	Add_User
 	@RequestMapping("Add_User")
 	public ModelAndView addUser(User user) {
-		System.out.println("public ModelAndView addUser(User user) {");
-		System.out.println("User object = " + user);
 		
 		String status = restTemplate.postForObject(
 				Constants.url + "/admin/addUser", 
 				user,
 				String.class);
 				
-		System.out.println("\n\n--> Status = " + status);
-		
 		ModelAndView modelAndView = new ModelAndView();
 		if(status.equals("added")) {
 			modelAndView.setViewName("Admin.jsp?operation=addedUser");
@@ -75,13 +71,10 @@ public class AdminController {
 			
 			HttpSession session) {
 
-		
 		User user = new User();
 		user.setName(name);
 		user.setPassword(password);
 		user.setUser_name(user_name);
-		
-		System.out.println("\ndepartmentName = " + departmentName + "\n");
 		
 		/* adding user in User Table */
 		user = restTemplate.postForObject(
@@ -91,7 +84,7 @@ public class AdminController {
 		
 		ModelAndView modelAndView = new ModelAndView();
 		if(user != null) {
-			System.out.println("Inserted User of ServiceEngineer");
+			/* System.out.println("Inserted User of ServiceEngineer"); */
 
 		}else{
 			modelAndView.setViewName("Admin.jsp?operation=Add_Service_Engineer&warning=changeUserName");
@@ -110,15 +103,10 @@ public class AdminController {
 		serviceEngineer.setTotal_tickets_worked_on(0);
 		serviceEngineer.setUser(user);
 		
-		System.out.println("\n\nuser after saving = " + user + "\n");
-		System.out.println("serviceEngineer object = " + serviceEngineer);
-		
 		String statusOfServiceEngineer = restTemplate.postForObject(
 				Constants.url + "/admin/addServiceEngineer", 
 				serviceEngineer,
 				String.class);
-				
-		System.out.println("\n\n--> statusOfServiceEngineer = " + statusOfServiceEngineer);
 		
 		if(statusOfServiceEngineer.equals("added")) {
 			modelAndView.setViewName("Admin.jsp?operation=addedServiceEngineer");
@@ -142,7 +130,6 @@ public class AdminController {
 		List<Department> listOfDepartments = responseEntityDepartments.getBody();
 		
 		session.setAttribute("listOfDepartments", listOfDepartments);
-		System.out.println("\nlistOfDepartments = > " + listOfDepartments + "\n\n");
 		
 		ModelAndView modelAndView = new ModelAndView("Admin.jsp?operation=ShowDepartmentsAndAddDepartment");
 		return modelAndView;
@@ -160,7 +147,6 @@ public class AdminController {
 		List<Status> listOfStatuses = responseEntityDepartments.getBody();
 		
 		session.setAttribute("listOfStatuses", listOfStatuses);
-		System.out.println("\nlistOfStatuses = > " + listOfStatuses + "\n\n");
 		
 		ModelAndView modelAndView = new ModelAndView("Admin.jsp?operation=ShowDepartmentsAndAddDepartment");
 		return modelAndView;
@@ -183,15 +169,11 @@ public class AdminController {
 		newDepartmentDetails.put("newDepartmentName", newDepartmentName);
 		newDepartmentDetails.put("newDepartmentCode", newDepartmentCode);
 		
-		System.out.println("CHECK -> " + newDepartmentDetails.get("newDepartmentCode"));
-
-		
 		String statusOfNewDepartment = restTemplate.postForObject(
 				Constants.url + "/admin/addNewDepartment", 
 				newDepartmentDetails,
 				String.class);
 				
-		System.out.println("\n\n--> statusOfNewDepartment = " + statusOfNewDepartment);
 		if(statusOfNewDepartment.equals("added")) {
 			/* set listOfDepartments */
 			ResponseEntity<List<Department>> responseEntityDepartments = restTemplate.exchange(
@@ -202,7 +184,6 @@ public class AdminController {
 			List<Department> listOfDepartments = responseEntityDepartments.getBody();
 			
 			session.setAttribute("listOfDepartments", listOfDepartments);
-			System.out.println("\nlistOfDepartments = > " + listOfDepartments + "\n\n");
 			
 			modelAndView.setViewName("Admin.jsp?status=addedNewDepartment&operation=ShowDepartmentsAndAddDepartment");
 		}else if(statusOfNewDepartment.equals("notAdded")) {

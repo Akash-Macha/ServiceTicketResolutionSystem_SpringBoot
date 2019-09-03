@@ -36,7 +36,6 @@ public class AdminServices {
 	private IServiceEngineerRepository serviceEngineerRepository;
 	
 	public List<User> getAllUses() {
-
 		return adminRepository.getAllUses();
 	}
 
@@ -44,10 +43,6 @@ public class AdminServices {
 		Role role = roleRepository.getRoleByCode("END_U");
 		
 		user.setRole( role );
-		System.out.println("\nUser obj in addUser = " + user + "\n");
-		
-		System.out.println("in user user.setRole( roleRepository.getRoleByCode(\"END_U\") ); = " + user);
-		
 		try {
 			userRepository.save(user);
 			
@@ -74,9 +69,6 @@ public class AdminServices {
 		Role role = roleRepository.getRoleByCode("SER_ENGG");
 		
 		user.setRole( role );
-		System.out.println("\nUser obj in addUser = " + user + "\n");
-		
-		System.out.println("in user user.setRole( roleRepository.getRoleByCode(\"END_U\") ); = " + user);
 		
 		try {
 			userRepository.save(user);
@@ -89,7 +81,6 @@ public class AdminServices {
 	}
 
 	public String addNewDepartment(HashMap<String, String> newDepartmentDetails) {
-		System.out.println("public String addNewDepartment(HashMap<String, String> newDepartmentDetails = " + newDepartmentDetails);
 		try {
 			Department department = new Department();
 			department.setName( newDepartmentDetails.get("newDepartmentName") );

@@ -10,8 +10,6 @@ public class GeneralController {
 	
 	@RequestMapping(value = "")
 	public  ModelAndView gotoIndex() {
-		System.out.println("HIT IN GOTO INDEX");
-		
 		ModelAndView modelAndView = new ModelAndView();
 	
 		modelAndView.setViewName("index.jsp?");
