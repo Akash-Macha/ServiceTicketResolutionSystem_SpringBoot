@@ -46,6 +46,13 @@ public class AdminController {
 //	Add_User
 	@RequestMapping("Add_User")
 	public ModelAndView addUser(User user) {
+		
+		if(		user.getName().equals("") || 
+				user.getPassword().equals("") ||
+				user.getUser_name().equals("")) {
+			return new ModelAndView("Admin.jsp?operation=Add_user&warning=changeUserName");
+		}
+		
 		System.out.println("public ModelAndView addUser(User user) {");
 		System.out.println("User object = " + user);
 		
@@ -75,7 +82,11 @@ public class AdminController {
 			String departmentName,
 			
 			HttpSession session) {
-
+		
+		/* null | empty check */
+		if(name.equals("") || user_name.equals("") || password.equals("")) {
+			return new ModelAndView("Admin.jsp?operation=Add_Service_Engineer&warning=changeUserName");
+		}
 		
 		User user = new User();
 		user.setName(name);
@@ -157,6 +168,12 @@ public class AdminController {
 			String newStatusCode,
 			
 			HttpSession session) {
+		
+		
+		if(newStatusValue.equals("") || newStatusCode.equals("")) {
+			return new ModelAndView("Admin.jsp?status=notAddedNewStatus&operation=ShowStatusesAndAddStatuses");
+		}
+		
 		ModelAndView modelAndView = new ModelAndView();
 		
 		HashMap<String, String> newStatusDetails = new HashMap<String, String>();
@@ -208,6 +225,10 @@ public class AdminController {
 			String newRoleCode,
 			
 			HttpSession session) {
+		
+		if(newRoleName.equals("") || newRoleCode.equals("")) {
+			return new ModelAndView("Admin.jsp?status=notAddedNewRole&operation=admin-ShowRolesAndAddRole");
+		}
 		ModelAndView modelAndView = new ModelAndView();
 		
 		HashMap<String, String> newRoleDetails = new HashMap<String, String>();
@@ -224,7 +245,7 @@ public class AdminController {
 
 			modelAndView.setViewName("admin-ShowRolesAndAddRole");
 		}else if(statusOfNewRole.equals("notAdded")) {
-			modelAndView.setViewName("Admin.jsp?status=notAddedNewRole&operation=admin-ShowRolesAndAddRole");
+			modelAndView.setViewName("Admin.jsp?status=notAddedNewRole&operation=ShowRolesAndAddRole");
 		}
 
 		return modelAndView;
@@ -257,6 +278,11 @@ public class AdminController {
 			String newDepartmentCode,
 			
 			HttpSession session) {
+		
+		if(newDepartmentName.equals("") || newDepartmentCode.equals("")) {
+			return new ModelAndView("Admin.jsp?status=notAddedNewDepartment&operation=ShowDepartmentsAndAddDepartment");
+		}
+		
 		ModelAndView modelAndView = new ModelAndView();
 		
 		HashMap<String, String> newDepartmentDetails = new HashMap<String, String>();
