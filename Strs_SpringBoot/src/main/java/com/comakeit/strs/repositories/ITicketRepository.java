@@ -11,6 +11,7 @@ import com.comakeit.strs.entites.Ticket;
 
 
 public interface ITicketRepository extends JpaRepository<Ticket, Integer>{
+
 	
 	@Query(""
 			+ "SELECT ticket " 
@@ -23,6 +24,7 @@ public interface ITicketRepository extends JpaRepository<Ticket, Integer>{
 			+ "FROM Ticket ticket "
 			+ "WHERE ticket.id = :ticket_id")
 	public Ticket findTicketById(@Param("ticket_id") Integer ticket_id);
+	
 	
 	@Query("SELECT ticket "
 			+ "FROM Ticket ticket "

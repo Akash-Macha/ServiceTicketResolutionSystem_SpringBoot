@@ -266,7 +266,9 @@ if(request.getParameter("operation") != null){
 	if(operation.equals("ShowAllTickets")){
 		
 %>
+
 <!-- Ticket Id	Issue Category	start_date	requested_end_date	service_engineer_id		priority	status -->
+
 <%		System.out.println("\n\nInside: if(operation.equals('ShowAllTickets')){\n\n");
 		System.out.println("(ArrayList<Ticket>)session.getAttribute('listOfTickets') " + (ArrayList<Ticket>)session.getAttribute("listOfTickets"));
 		ArrayList<Ticket> listOfTickets = (ArrayList<Ticket>)session.getAttribute("listOfTickets");

@@ -35,12 +35,16 @@ public class TicketServices {
 	
 	
 	public List<Ticket> getAllTickets(@RequestBody String user_name){
+		System.out.println("Inside: public List<Ticket> getAllTickets(@PathVariable(value=\"user_name\") String user_name){");
+			
 		return  ticketRepository.getAlltickets(user_name);
 	}
 
 	public String closeTicket(String ticket_id) {
 		
 		Optional<Ticket> optionalTicket = ticketRepository.findById( Integer.parseInt(ticket_id) );
+		System.out.println("\npublic String closeTicket(String ticket_id) {");
+		System.out.println("optionalTicket = " + optionalTicket);
 		
 		if(optionalTicket.isPresent()) {
 			Ticket ticket = optionalTicket.get();
@@ -51,6 +55,8 @@ public class TicketServices {
 			/* upadting serviceEngineer */
 			User user= ticket.getAssigned_to();
 			ServiceEngineer serviceEngineer = serviceEngineerRepository.getServiceEngineerByUserId( (Integer) user.getId() );
+			
+			System.out.println("\nClosed Ticket Assigned serviceEngineer = " + serviceEngineer + "\n");
 			
 			serviceEngineer.setCurrent_high_priority_ticket(null);
 			serviceEngineer.setCurrent_ticket_start_date(null);
@@ -98,7 +104,7 @@ public class TicketServices {
 				return "true";
 			}
 		}else {
-
+			System.out.println("\n** THERE ARE NO PENDING TICKETS ***\n");
 		}
 		return "false";
 	}

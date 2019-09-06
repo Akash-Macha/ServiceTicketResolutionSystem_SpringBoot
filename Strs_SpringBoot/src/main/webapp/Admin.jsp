@@ -74,14 +74,23 @@ tr:nth-child(even) {
 			%>
 			<h2>Please check your Department Name / Code !</h2>
 			<%
+		} else if(status.equals("addedNewStatus")){
+			%>
+			<h2>Status Added Successfully!</h2>
+			<%
+		}else if(status.equals("notAddedNewStatus")){
+			%>
+			<h2>Please check your Status Name / Code !</h2>
+			<%
+		}else if(status.equals("notAddedNewRole")){
+			%>
+			<h2>Please check your Role Name / Code !</h2>
+			<%
 		}
-		
 	}
 %>
-<!-- END: If person tries to Come back after loggin OUT -->
-
+<!-- END: If person tries to Come back after loggin OUT --> 
 <h1>Welcome <%= session.getAttribute("user_name") %></h1>
-
 <div class="alignColumns">
 <p>Users</p>
 <a href="admin-Show_All_User">Show All Users</a><br>
@@ -90,8 +99,9 @@ tr:nth-child(even) {
 
 <a href="admin-ShowDepartmentsAndAddDepartment">View Departments or Add a Department</a><br>
 
-<!-- <a href="admin-ShowStatusesAndAddStatuses">View Statuses or Add a Status</a><br>
+<a href="admin-ShowStatusesAndAddStatuses">View Statuses or Add a Status</a><br>
 <a href="admin-ShowRolesAndAddRole">View Role's or Add a Role</a><br>
+ <!--
 <a href="admin-ShowPrioritiesAndAddPriority">View Tickets Priorities or Add a priority</a><br> -->
 </div>
 
@@ -135,18 +145,18 @@ if(request.getParameter("operation") != null){
     	System.out.println("--> all users : " + listOfUsers);
       			for(User user : listOfUsers){
   %>
-   <tr>
-    <td> <%= user.getId()  %> </td>
-    <td> <%= user.getName() %> </td>
-    <td> <%= user.getUser_name() %> </td>
-    <td> <%= user.getPassword() %> </td>
-    <td> <%= user.getRole().getName() %> </td>
-    <td>
-        <!-- <form action="AdminOperations?operation=DeleteUser&UserId=<%= user.getId() %>" method="POST">
-    		<input type="submit" class="close_button" value="Delete User">
-		</form> -->
-    </td>
-  </tr>
+		   <tr>
+		    <td> <%= user.getId()  %> </td>
+		    <td> <%= user.getName() %> </td>
+		    <td> <%= user.getUser_name() %> </td>
+		    <td> <%= user.getPassword() %> </td>
+		    <td> <%= user.getRole().getName() %> </td>
+		    <!-- <td>
+		         <form action="AdminOperations?operation=DeleteUser&UserId=<%= user.getId() %>" method="POST">
+		    		<input type="submit" class="close_button" value="Delete User">
+				</form> 
+		    </td> -->
+		  </tr>
 			<%
   			}
 		}else if(operation.equals("Add_user")){
@@ -211,7 +221,6 @@ if(request.getParameter("operation") != null){
 <%
 				}
 %>
-	
 			</table>
 			
 			<label>Add New Department</label><br>
@@ -221,8 +230,70 @@ if(request.getParameter("operation") != null){
 			<input type="submit" name="submitNewDepartment">
 			</form>
 			<%
-		}else if(operation.equals("ShowDepartmentsAndAddDepartment")){
-			
+		}else if(operation.equals("ShowStatusesAndAddStatuses")){
+			%>
+			<form action="admin-addNewStatus">
+				<table>
+				  <tr>
+				    <th>Id</th>
+				    <th>Name</th>
+				    <th>Code</th>
+				  </tr>		  
+	<%
+					/* Get the ArrayList from the sessoin */
+					List<Status> listOfStatuses = (List<Status>) session.getAttribute("listOfStatuses");
+					System.out.println("In JSP----> : " + listOfStatuses);
+					for(Status statusValues : listOfStatuses) {
+	%>
+						<tr>
+		  					<td><%= statusValues.getId() %></td>
+		  					<td><%= statusValues.getValue() %></td>
+		  					<td><%= statusValues.getCode() %></td>
+	  					</tr>
+	<%
+					}
+	%>
+				</table>
+				
+				<label>Add New Status</label><br>
+				<label>Status Name: </label><input type="text" name="newStatusValue" onkeydown="checkIsEmpty();"><br>
+				<label>Status Code: </label><input type="text" name="newStatusCode" onkeydown="checkIsEmpty();"><br>
+				
+				<input type="submit" name="submitNewStatus">
+			</form>
+			<%
+		}else if(operation.equals("ShowRolesAndAddRole")){
+			%>
+			<form action="admin-addNewRole">
+				<table>
+				  <tr>
+				    <th>Id</th>
+				    <th>Name</th>
+				    <th>Code</th>
+				  </tr>		  
+	<%
+					/* Get the ArrayList from the sessoin */
+					List<Role> listOfRoles = (List<Role>) session.getAttribute("listOfRoles");
+					System.out.println("In JSP----> : " + listOfRoles);
+					for(Role role : listOfRoles) {
+	%>
+						<tr>
+		  					<td><%= role.getId() %></td>
+		  					<td><%= role.getName() %></td>
+		  					<td><%= role.getCode() %></td>
+	  					</tr>
+	<%
+					}
+	%>
+				</table>
+				
+				<label>Add New Role</label><br>
+				<label>Status Name: </label><input type="text" name="newRoleName" onkeydown="checkIsEmpty();"><br>
+				<label>Status Code: </label><input type="text" name="newRoleCode" onkeydown="checkIsEmpty();"><br>
+				
+				<input type="submit" name="submitNewRole">
+			</form>
+			<%
 		}
 	}
 %>

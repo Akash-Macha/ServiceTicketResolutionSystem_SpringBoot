@@ -61,4 +61,22 @@ public class AdminRestController {
 	
 		return adminServices.addNewDepartment(newDepartmentDetails);
 	}
+	
+//	addNewStatus
+	@RequestMapping(value= "/addNewStatus",
+			method = RequestMethod.POST)
+	public String addNewStatus(@RequestBody HashMap<String, String> newStatusDetails) {
+		System.out.println("\npublic String addNewDepartment(@RequestBody HashMap<String, String> newDepartmentDetails) {");
+		System.out.println("newDepartmentDetails = " + newStatusDetails);
+	
+		return adminServices.addNewStatus(newStatusDetails);
+	}
+	
+//	addNewRole
+	@RequestMapping(value= "/addNewRole",
+			method = RequestMethod.POST)
+	public String addNewRole(@RequestBody HashMap<String, String> newRoleDetails) {
+	
+		return adminServices.addNewRole(newRoleDetails);
+	}
 }

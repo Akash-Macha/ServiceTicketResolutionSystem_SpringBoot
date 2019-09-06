@@ -17,9 +17,11 @@ public interface IUserRepository extends JpaRepository<User, Integer>{
 	@Query("SELECT user.role FROM User user WHERE user.user_name = :user_name and user.password = :password ")
 	public Role validate(@Param("user_name") String user_name, @Param("password") String password);
 	
+	
 	@Query("SELECT department "
 			+ "FROM Department department ")
 	public List<Department> getListOfDepartment();
+	
 	
 	@Query("SELECT priority "
 			+ "FROM Priority priority ")

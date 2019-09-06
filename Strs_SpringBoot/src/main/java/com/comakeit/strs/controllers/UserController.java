@@ -33,15 +33,22 @@ public class UserController {
 	
 	@RequestMapping("Validate")
 	public ModelAndView validate(User user, HttpServletRequest request) {
+		System.out.println("\\n\\nInUserController\\n\\n");
+		
+		System.out.println(user.getUser_name());
+		System.out.println(user.getPassword());
+					
 		Role role = restTemplate.postForObject(	Constants.url + "/user" +  "/Validate", 
 												user, 
 												Role.class);
+		System.out.println("response ROLE = " + role);
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("user_name", user.getUser_name());
 		
 		ModelAndView modelAndView = new ModelAndView();
 		if(role == null) {
+			System.out.println("\n\nrole = null\n\n");
 			modelAndView.setViewName("index.jsp?warning=UnAuthorizedLogin");
 
 			return modelAndView;
@@ -58,6 +65,7 @@ public class UserController {
 			List<Department> listOfDepartments = responseEntityDepartments.getBody();
 			
 			session.setAttribute("listOfDepartments", listOfDepartments);
+			System.out.println("\nlistOfDepartments = > " + listOfDepartments + "\n\n");
 			
 			/* listOfPriorities */
 			ResponseEntity<List<Priority>> responseEntityPriorities= restTemplate.exchange(
@@ -67,6 +75,7 @@ public class UserController {
 			
 			List<Priority> listOfPriorities = responseEntityPriorities.getBody();
 			session.setAttribute("listOfPriorities", listOfPriorities);
+			System.out.println("n\nlistOfPriorities = " + listOfPriorities + "\n\n");
 			
 			/* listOfUsers */
 			ResponseEntity<List<User>> responseEntityUsers= restTemplate.exchange(
@@ -76,6 +85,7 @@ public class UserController {
 			
 			List<User> listOfUsers = responseEntityUsers.getBody();
 			session.setAttribute("listOfUsers", listOfUsers);
+			System.out.println("n\nlistOfPriorities = " + listOfPriorities + "\n\n");
 			
 			return modelAndView;
 		}else if(role.getCode().equals("END_U")) {
@@ -91,6 +101,7 @@ public class UserController {
 			List<Department> listOfDepartments = responseEntityDepartments.getBody();
 			
 			session.setAttribute("listOfDepartments", listOfDepartments);
+			System.out.println("\nlistOfDepartments = > " + listOfDepartments + "\n\n");
 			
 			/* listOfPriorities */
 			ResponseEntity<List<Priority>> responseEntityPriorities= restTemplate.exchange(
@@ -100,6 +111,7 @@ public class UserController {
 			
 			List<Priority> listOfPriorities = responseEntityPriorities.getBody();
 			session.setAttribute("listOfPriorities", listOfPriorities);
+			System.out.println("n\nlistOfPriorities = " + listOfPriorities + "\n\n");
 			
 			/* listOfUsers */
 			ResponseEntity<List<User>> responseEntityUsers= restTemplate.exchange(
@@ -109,6 +121,7 @@ public class UserController {
 			
 			List<User> listOfUsers = responseEntityUsers.getBody();
 			session.setAttribute("listOfUsers", listOfUsers);
+			System.out.println("n\nlistOfPriorities = " + listOfPriorities + "\n\n");
 
 			return modelAndView;
 		}else if(role.getCode().equals("ADMN")) {
@@ -121,6 +134,7 @@ public class UserController {
 			
 			List<Department> listOfDepartments = responseEntityDepartment.getBody();
 			session.setAttribute("listOfDepartments", listOfDepartments);
+			System.out.println("n\\listOfDepartment = " + listOfDepartments + "\n\n");
 			
 			modelAndView.setViewName("Admin.jsp");
 			return modelAndView;
@@ -131,6 +145,8 @@ public class UserController {
 	
 	@RequestMapping(value = "ShowFormRaiseTicket", method= RequestMethod.GET)
 	public ModelAndView showFormRaiseTicket(HttpServletRequest request) {
+		
+		System.out.println("\n\npublic ModelAndView raiseATicket()\n\n");
 	
 		ModelAndView modelAndView = new ModelAndView();
 		
@@ -151,6 +167,7 @@ public class UserController {
 		
 		List<Ticket> listOfTickets = responseEntityUsers.getBody();
 		session.setAttribute("listOfTickets", listOfTickets);
+		System.out.println("\nListOfTickets = " + listOfTickets + "\n\n");
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("EndUser.jsp?operation=ShowAllTickets");
@@ -169,7 +186,17 @@ public class UserController {
 			
 			HttpSession session
 			) {
-
+		
+		System.out.println("inside: public ModelAndView RaiseTicket(Ticket ticket) {");
+		
+		System.out.println(""
+				+ "IssueCategory = " + IssueCategory
+				+ "message = " + message
+				+ "priority = " + priority
+				+ "start_date = " + start_date
+				+ "requested_end_date = " + requested_end_date
+				);
+		
 		Ticket ticket = new Ticket();
 		/* --------------------- */
 		/* set listOfDepartments */
@@ -181,6 +208,7 @@ public class UserController {
 		List<Department> listOfDepartments = responseEntityDepartments.getBody();
 		
 		session.setAttribute("listOfDepartments", listOfDepartments);
+		System.out.println("\nlistOfDepartments = > " + listOfDepartments + "\n\n");
 		
 		/* listOfPriorities */
 		ResponseEntity<List<Priority>> responseEntityPriorities= restTemplate.exchange(
@@ -190,6 +218,7 @@ public class UserController {
 		
 		List<Priority> listOfPriorities = responseEntityPriorities.getBody();
 		session.setAttribute("listOfPriorities", listOfPriorities);
+		System.out.println("n\nlistOfPriorities = " + listOfPriorities + "\n\n");
 		
 		/* listOfUsers */
 		ResponseEntity<List<User>> responseEntityUsers= restTemplate.exchange(
@@ -199,7 +228,10 @@ public class UserController {
 		
 		List<User> listOfUsers = responseEntityUsers.getBody();
 		session.setAttribute("listOfUsers", listOfUsers);
+		System.out.println("n\nlistOfPriorities = " + listOfPriorities + "\n\n");
 		/*-------------------------------*/
+	
+		System.out.println("\n\n\n\n\n\n listOfDepar = " + listOfDepartments);
 		for(Department eachDepartment : listOfDepartments) {
 			if(eachDepartment.getName().equals( IssueCategory ))
 				ticket.setCategory( eachDepartment );
@@ -211,6 +243,7 @@ public class UserController {
 			if(eachPriority.getValue().equals(priority))
 				ticket.setPriority( eachPriority );
 		
+		
 		ticket.setStart_date( LocalDate.parse(start_date) );
 		ticket.setRequested_end_date( LocalDate.parse(requested_end_date) );
 		
@@ -219,11 +252,15 @@ public class UserController {
 			if(eachUser.getUser_name().equals(requested_by))
 				ticket.setRequested_by( eachUser );
 		
+		System.out.println("\n\n**********  In UserController final Ticket object -> " + ticket + "\n***********");
+		
 		/* insert ticket and assign to a serviceEmployee */
 		String status = restTemplate.postForObject(
 				Constants.url + "/user/insertTicket",
 				ticket,
 				String.class);
+				
+		System.out.println("\n\n--> Status = " + status);
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("EndUser.jsp?operation=TicketGenerated");

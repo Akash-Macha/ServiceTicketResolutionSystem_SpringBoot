@@ -17,7 +17,7 @@ public class StatusRestController {
 	private IStatusRepository statusRepository;
 	
 	@RequestMapping(value="/getAllStatuses")
-	public List<Status> getAverageTimeTakenPerEngineer() {
+	public List<Status> getAllStatuses() {
 		return statusRepository.findAll();
 	}
 }

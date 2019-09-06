@@ -95,7 +95,7 @@ a, u {
 /* -- START : styling Priorty Drop down */
 body {
   font-family: Arial, Helvetica, sans-serif;
-}
+} 
 
 .navbar {
   overflow: hidden;
