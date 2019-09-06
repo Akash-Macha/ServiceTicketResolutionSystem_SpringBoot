@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.comakeit.strs.constants.Constants;
 import com.comakeit.strs.entites.Department;
+import com.comakeit.strs.entites.Priority;
 import com.comakeit.strs.entites.Role;
 import com.comakeit.strs.entites.ServiceEngineer;
 import com.comakeit.strs.entites.Status;
@@ -251,8 +252,54 @@ public class AdminController {
 		return modelAndView;
 	}
 //	admin-ShowPrioritiesAndAddPriority
+//	admin-ShowPrioritiesAndAddPriority
+	@RequestMapping("admin-ShowPrioritiesAndAddPriority")
+	public ModelAndView ShowPrioritiesAndAddPriority(HttpSession session) {
+		/* set listOfDepartments */
+		ResponseEntity<List<Priority>> responseEntityPriorities = restTemplate.exchange(
+				Constants.url + "/priority" +  "/getAllPriorities",
+		HttpMethod.GET, null, 
+		new ParameterizedTypeReference<List<Priority>>() {});
+		
+		List<Priority> listOfPriorities = responseEntityPriorities.getBody();
+		
+		session.setAttribute("listOfPriorities", listOfPriorities);
+		System.out.println("\nlistOfPriorities = > " + listOfPriorities + "\n\n");
+		
+		ModelAndView modelAndView = new ModelAndView("Admin.jsp?operation=ShowPrioritiesAndAddPriority");
 	
+		return modelAndView;
+	}
 	
+	@RequestMapping("admin-addNewPriority")
+	public ModelAndView addNewPriority(
+			String newPriorityValue,
+			String newPriorityCode,
+			
+			HttpSession session) {
+		
+		if(newPriorityValue.equals("") || newPriorityCode.equals("")) {
+			return new ModelAndView("Admin.jsp?status=notAddedNewPriority&operation=ShowPrioritiesAndAddPriority");
+		}
+		ModelAndView modelAndView = new ModelAndView();
+		
+		HashMap<String, String> newPriorityDetails = new HashMap<String, String>();
+		newPriorityDetails.put("newPriorityValue", newPriorityValue);
+		newPriorityDetails.put("newPriorityCode", newPriorityCode);
+		
+		String statusOfNewPriority = restTemplate.postForObject(
+				Constants.url + "/admin/addNewPriority", 
+				newPriorityDetails,
+				String.class);
+				
+		System.out.println("\n\n--> statusOfNewPriority = " + statusOfNewPriority);
+		if(statusOfNewPriority.equals("added"))
+			modelAndView.setViewName("admin-ShowPrioritiesAndAddPriority");
+		else if(statusOfNewPriority.equals("notAdded"))
+			modelAndView.setViewName("Admin.jsp?status=notAddedNewPriority&operation=ShowPrioritiesAndAddPriority");
+		
+		return modelAndView;
+	}
 	
 //	admin-ShowDepartmentsAndAddDepartment
 	@RequestMapping("admin-ShowDepartmentsAndAddDepartment")

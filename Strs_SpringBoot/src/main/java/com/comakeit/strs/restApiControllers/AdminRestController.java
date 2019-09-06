@@ -76,7 +76,13 @@ public class AdminRestController {
 	@RequestMapping(value= "/addNewRole",
 			method = RequestMethod.POST)
 	public String addNewRole(@RequestBody HashMap<String, String> newRoleDetails) {
-	
 		return adminServices.addNewRole(newRoleDetails);
+	}
+	
+//	addNewPriority
+	@RequestMapping(value= "/addNewPriority",
+			method = RequestMethod.POST)
+	public String addNewPriority(@RequestBody HashMap<String, String> newPriorityDetails) {
+		return adminServices.addNewPriority(newPriorityDetails);
 	}
 }

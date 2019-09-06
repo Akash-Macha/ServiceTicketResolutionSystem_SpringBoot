@@ -8,12 +8,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.comakeit.strs.entites.Department;
+import com.comakeit.strs.entites.Priority;
 import com.comakeit.strs.entites.Role;
 import com.comakeit.strs.entites.ServiceEngineer;
 import com.comakeit.strs.entites.Status;
 import com.comakeit.strs.entites.User;
 import com.comakeit.strs.repositories.IAdminRepository;
 import com.comakeit.strs.repositories.IDepartmentRepository;
+import com.comakeit.strs.repositories.IPriorityRepository;
 import com.comakeit.strs.repositories.IRoleRepository;
 import com.comakeit.strs.repositories.IServiceEngineerRepository;
 import com.comakeit.strs.repositories.IStatusRepository;
@@ -30,6 +32,9 @@ public class AdminServices {
 	
 	@Autowired
 	private IStatusRepository statusRepository;
+	
+	@Autowired
+	private IPriorityRepository priorityRepository;
 	
 	@Autowired
 	private IUserRepository userRepository;
@@ -130,6 +135,21 @@ public class AdminServices {
 			role.setName(newRoleDetails.get("newRoleName"));
 			
 			roleRepository.save(role);
+		}catch(Exception e) {
+			e.printStackTrace();
+			return "notAdded";
+		}
+		return "added";
+	}
+
+	public String addNewPriority(HashMap<String, String> newPriorityDetails) {
+		
+		try {
+			Priority priority = new Priority();
+			priority.setCode(newPriorityDetails.get("newPriorityCode"));
+			priority.setValue(newPriorityDetails.get("newPriorityValue"));
+			
+			priorityRepository.save(priority);
 		}catch(Exception e) {
 			e.printStackTrace();
 			return "notAdded";

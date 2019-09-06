@@ -21,9 +21,9 @@ import com.comakeit.strs.services.UserServices;
 @RestController
 @RequestMapping("user")
 public class UserRestController {
+	
 	@Autowired
 	private UserServices userServices ;
-
 
 	@RequestMapping(value= "/Validate",
 					method = RequestMethod.POST)

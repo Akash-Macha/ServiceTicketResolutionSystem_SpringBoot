@@ -119,6 +119,10 @@ tr:nth-child(even) {
 			%>
 			<h2>Please check your Role Name / Code !</h2>
 			<%
+		}else if(status.equals("notAddedNewPriority")){
+			%>
+			<h2>Please check your Priority Name / Code !</h2>
+			<%
 		}
 	}
 %>
@@ -134,8 +138,7 @@ tr:nth-child(even) {
 
 <a href="admin-ShowStatusesAndAddStatuses">View Statuses or Add a Status</a><br>
 <a href="admin-ShowRolesAndAddRole">View Role's or Add a Role</a><br>
- <!--
-<a href="admin-ShowPrioritiesAndAddPriority">View Tickets Priorities or Add a priority</a><br> -->
+<a href="admin-ShowPrioritiesAndAddPriority">View Tickets Priorities or Add a priority</a><br>
 </div>
 
 <form action="Logout" method="POST">
@@ -325,6 +328,38 @@ if(request.getParameter("operation") != null){
 				<label>Status Code: </label><input type="text" id="code"  name="newRoleCode" ><br>
 				
 				<input type="submit" name="submitNewRole">
+			</form>
+			<%
+		} else if(operation.equals("ShowPrioritiesAndAddPriority")){
+			%>
+			<form action="admin-addNewPriority" method="POST" onsubmit="CheckIsEmpty();">
+				<table>
+				  <tr>
+				    <th>Id</th>
+				    <th>Value</th>
+				    <th>Code</th>
+				  </tr>		  
+	<%
+					/* Get the ArrayList from the sessoin */
+					List<Priority> listOfPriorities = (List<Priority>) session.getAttribute("listOfPriorities");
+					System.out.println("In JSP----> : " + listOfPriorities);
+					for(Priority priority : listOfPriorities) {
+	%>
+						<tr>
+		  					<td><%= priority.getId() %></td>
+		  					<td><%= priority.getValue() %></td>
+		  					<td><%= priority.getCode() %></td>
+	  					</tr>
+	<%
+					}
+	%>
+				</table>
+				
+				<label>Add New Priority</label><br>
+				<label>Priority Value: </label><input type="text" id="name" name="newPriorityValue" ><br>
+				<label>Priority Code: </label><input type="text" id="code"  name="newPriorityCode" ><br>
+				
+				<input type="submit" name="submitNewPriority">
 			</form>
 			<%
 		}
