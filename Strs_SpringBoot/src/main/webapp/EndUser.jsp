@@ -137,12 +137,13 @@ input[type=submit]:hover {
 
 <script type="text/javascript">
 function validateDate(){
+
     var startDate = document.getElementById("StartDate").value;
-    var endDate = document.getElementById("EndDate").value;
+    var endDate = document.getElementById("RequestedEndDate").value;
 
     if ((Date.parse(endDate) <= Date.parse(startDate))) {
         alert("End date should be greater than Start date");
-        document.getElementById("EndDate").value = startDate;
+        document.getElementById("RequestedEndDate").value = startDate;
     }
     // console.log("called");
 }
@@ -161,7 +162,6 @@ function validateDate(){
 <!-- START:  If person tries to Come back after loggin OUT : redirect him/her to login page -->
 <%
 	if(session.getAttribute("user_name") == null){
-		System.out.println("session.getAttribute(user_name) == null");
 		response.sendRedirect("index.jsp?warning=UnAuthorizedLogin");
 		return;
 	}
@@ -184,9 +184,6 @@ function validateDate(){
 <%
 
 if(request.getParameter("operation") != null){
-	System.out.println("Inside: if(request.getParameter('operation') != null){");
-	System.out.println("Value = " + request.getParameter("operation"));
-
 	String operation = (String) request.getParameter("operation");
 	if(operation.equals("RaiseTicket")){
 %>
@@ -201,7 +198,6 @@ if(request.getParameter("operation") != null){
 <%
 		/* Get the ArrayList from the sessoin */
 		List<Department> listOfDepartments = (List<Department>) session.getAttribute("listOfDepartments");
-		System.out.println("In JSP----> : " + listOfDepartments);
 		for(Department department : listOfDepartments) {
 %>
   			<option value="<%= department.getName() %>"><%= department.getName() %></option>
@@ -269,11 +265,7 @@ if(request.getParameter("operation") != null){
 
 <!-- Ticket Id	Issue Category	start_date	requested_end_date	service_engineer_id		priority	status -->
 
-<%		System.out.println("\n\nInside: if(operation.equals('ShowAllTickets')){\n\n");
-		System.out.println("(ArrayList<Ticket>)session.getAttribute('listOfTickets') " + (ArrayList<Ticket>)session.getAttribute("listOfTickets"));
-		ArrayList<Ticket> listOfTickets = (ArrayList<Ticket>)session.getAttribute("listOfTickets");
-		
-		System.out.println("listOfTickets = " + listOfTickets);
+<%		ArrayList<Ticket> listOfTickets = (ArrayList<Ticket>)session.getAttribute("listOfTickets");
 		
 		if(listOfTickets == null){// && listOfTickets.size() == 0){
 
@@ -304,7 +296,6 @@ if(request.getParameter("operation") != null){
 
 <!-- Table rows -->
 <%
-			System.out.println("\nBefore for loop\n\n");
 			for(int i=0 ; i < listOfTickets.size() ; ++i){
 %>
     <tr>

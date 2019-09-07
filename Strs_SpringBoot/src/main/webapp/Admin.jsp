@@ -82,7 +82,6 @@ tr:nth-child(even) {
 <!-- START:  If person tries to Come back after loggin OUT : redirect him/her to login page -->
 <%
 	if(session.getAttribute("user_name") == null){
-		System.out.println("session.getAttribute(user_name) == null");
 		response.sendRedirect("index.jsp?warning=UnAuthorizedLogin");
 		return;
 	}
@@ -150,7 +149,6 @@ tr:nth-child(even) {
 
 if(request.getParameter("operation") != null){
 	String operation = request.getParameter("operation");
-	System.out.println("request.getParameter('operation');" + request.getParameter("operation") + "\n");
 	if(operation.equals("addedUser")){
 		%>
 		<h2>Added User!</h2>
@@ -178,7 +176,6 @@ if(request.getParameter("operation") != null){
   </tr>
   <%
   	ArrayList<User> listOfUsers = (ArrayList<User>) session.getAttribute("listOfUsers");
-    	System.out.println("--> all users : " + listOfUsers);
       			for(User user : listOfUsers){
   %>
 		   <tr>
@@ -221,7 +218,6 @@ if(request.getParameter("operation") != null){
 				<select id="departmentName" name="departmentName"> 
 <%
 					List<Department> listOfDepartments = (List<Department>) session.getAttribute("listOfDepartments");
-					System.out.println("In JSP----> : " + listOfDepartments);
 					for(Department department : listOfDepartments) {
 %>
   						<option value="<%= department.getName() %>"><%= department.getName() %></option>
@@ -246,7 +242,6 @@ if(request.getParameter("operation") != null){
 <%
 				/* Get the ArrayList from the sessoin */
 				List<Department> listOfDepartments = (List<Department>) session.getAttribute("listOfDepartments");
-				System.out.println("In JSP----> : " + listOfDepartments);
 				for(Department department : listOfDepartments) {
 %>
 					<tr>
@@ -278,7 +273,6 @@ if(request.getParameter("operation") != null){
 	<%
 					/* Get the ArrayList from the sessoin */
 					List<Status> listOfStatuses = (List<Status>) session.getAttribute("listOfStatuses");
-					System.out.println("In JSP----> : " + listOfStatuses);
 					for(Status statusValues : listOfStatuses) {
 	%>
 						<tr>
@@ -310,7 +304,6 @@ if(request.getParameter("operation") != null){
 	<%
 					/* Get the ArrayList from the sessoin */
 					List<Role> listOfRoles = (List<Role>) session.getAttribute("listOfRoles");
-					System.out.println("In JSP----> : " + listOfRoles);
 					for(Role role : listOfRoles) {
 	%>
 						<tr>
@@ -342,7 +335,6 @@ if(request.getParameter("operation") != null){
 	<%
 					/* Get the ArrayList from the sessoin */
 					List<Priority> listOfPriorities = (List<Priority>) session.getAttribute("listOfPriorities");
-					System.out.println("In JSP----> : " + listOfPriorities);
 					for(Priority priority : listOfPriorities) {
 	%>
 						<tr>

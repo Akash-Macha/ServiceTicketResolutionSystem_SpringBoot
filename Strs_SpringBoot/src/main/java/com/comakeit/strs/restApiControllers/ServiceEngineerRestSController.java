@@ -16,37 +16,28 @@ import com.comakeit.strs.services.ServiceEngineerServices;
 @RequestMapping("/serviceEngineer")
 public class ServiceEngineerRestSController {
 
-	@Autowired
-	private ServiceEngineerServices serviceEngineerServices;
+    @Autowired
+    private ServiceEngineerServices serviceEngineerServices;
 
-	@RequestMapping(value = "/updateTicketPriority")
-	public String updateTicketPriority(@RequestBody ArrayList<String> updateTicketValues) {
-		System.out.println("\n\npublic String updateTicketPriority(@RequestBody ArrayList<String> updateTicketValues) {");
-		System.out.println("updateTicketValues = " + updateTicketValues);
+    @RequestMapping(value = "/updateTicketPriority")
+    public String updateTicketPriority(@RequestBody ArrayList<String> updateTicketValues) {
+        String status = serviceEngineerServices.updateTicketPriority(updateTicketValues);
 
-		String status = serviceEngineerServices.updateTicketPriority(updateTicketValues);
+        return status;
+    }
 
-		return status;
-	}
-
-	@RequestMapping(value="/getStats")
-	public ArrayList getAverageTimeTakenPerEngineer() {
-		System.out.println("public ArrayList getAverageTimeTakenPerEngineer(@PathVariable(value=\"user_name\") String user_name){");
-		
-		return  serviceEngineerServices.getAverageTimeTakenPerEngineer();
-	}
-	
-	@RequestMapping(value="/getStatsOfSeverity")
-	public ArrayList getAverageTimeTakenPerServerity() {
-		System.out.println("public ArrayList getAverageTimeTakenPerServerity() {");
-		
-		return  serviceEngineerServices.getAverageTimeTakenPerServerity();
-	}
-	
-	@RequestMapping(value="/getAgingOfOpenTicket/{user_name}")
-	public List<Ticket> getAgingOfOpenTicket(@PathVariable(value="user_name") String user_name) {
-		System.out.println("public ArrayList getAverageTimeTakenPerServerity() {");
-		
-		return  serviceEngineerServices.getAgingOfOpenTicket(user_name);
-	}
+    @RequestMapping(value="/getStats")
+    public ArrayList getAverageTimeTakenPerEngineer() {
+        return  serviceEngineerServices.getAverageTimeTakenPerEngineer();
+    }
+    
+    @RequestMapping(value="/getStatsOfSeverity")
+    public ArrayList getAverageTimeTakenPerServerity() {
+        return  serviceEngineerServices.getAverageTimeTakenPerServerity();
+    }
+    
+    @RequestMapping(value="/getAgingOfOpenTicket/{user_name}")
+    public List<Ticket> getAgingOfOpenTicket(@PathVariable(value="user_name") String user_name) {
+        return  serviceEngineerServices.getAgingOfOpenTicket(user_name);
+    }
 }

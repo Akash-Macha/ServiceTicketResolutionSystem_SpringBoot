@@ -10,7 +10,6 @@ import com.comakeit.strs.repositories.IRoleRepository;
 
 @Service
 public class RoleServices {
-
 	
 	@Autowired
 	private IRoleRepository roleRepository;

@@ -34,9 +34,6 @@ public class UserServices{
 	private IStatusRepository statusRepository;
 	
 	public Role validate(@RequestBody User user) {
-		
-		System.out.println("\n\nIn IUserRepository\n\n");
-		
 		return userRepository.validate(user.getUser_name(), user.getPassword());
 	}
 	
@@ -53,29 +50,19 @@ public class UserServices{
 	}
 	
 	public String insertTicket(@RequestBody Ticket ticket) {
-		System.out.println("\nTicket in UserServices --> " + ticket + "\n");
-
-		System.out.println("public String insertTicket(@RequestBody Ticket ticket){");
 		if(checkAndAssignTicketForUnAssignedServiceEmployee(ticket)) {
-			
-			System.out.println("In: checkAndAssignTicketForUnAssignedServiceEmployee");
-			System.out.println("\nFound a Free employee and assigned to him/her");
 			return "Inserted";
 		}
 		
 		if(ticket.getPriority().getCode().equals("HIG")) {
-			System.out.println("if(ticket.getPriority().getCode().equals(\"HIG\")) {");
 			
 			if(checkForLowPriorityTicketServiceEmployee(ticket)) {
-				System.out.println("if(checkForLowPriorityTicketServiceEmployee(ticket)) {");
 				
 				return "Inserted";
 			}else if(checkForMediumPriorityTicketServiceEmployee(ticket)) {
-				System.out.println("}else if(checkForMediumPriorityTicketServiceEmployee(ticket)) {");
 				
 				return "Inserted";
 			}else if(checkForServiceEngineerWithLessWorkedTicketsAndAssignPutInPending(ticket)) {
-				System.out.println("}else if(checkForServiceEngineerWithLessWorkedTicketsAndAssignPutInPending(formData)) {");
 				
 				return "Inserted";
 			}
@@ -93,25 +80,17 @@ public class UserServices{
 			return "Inserted";
 		}
 		
-		System.out.println("HITTT IN USER SERVICES");
-		System.out.println("\n\n In UserServices ticket = " + ticket + "\n\n");
-		
 		return "NotInserted";
 	}
 
 	private boolean checkForServiceEngineerWithLessWorkedTicketsAndAssignPutInPending(Ticket ticket) {
-		System.out.println("\ncheckForServiceEngineerWithLessWorkedTicketsAndAssignPutInPending(Ticket ticket) {");
 		
 		List<ServiceEngineer> listOfServiceEngineers = serviceEngineerRepository.getEmployeeWithLessWorkedTicket(
 				ticket.getCategory().getCode() );
 		
-		System.out.println("Response = " + listOfServiceEngineers);
-		
 		if(listOfServiceEngineers != null && listOfServiceEngineers.size() >= 1) {
-			System.out.println("Inside : getEmployeeWithLessWorkedTicket if(listOfServiceEngineers != null && listOfServiceEngineers.size() >= 1) {");
 			
 			ServiceEngineer serviceEngineer = listOfServiceEngineers.get(0);
-		
 			
 			ticket.setAssigned_to( (User) serviceEngineer.getUser() );
 			ticket.setStatus( statusRepository.getStatus("PEND") );
@@ -124,16 +103,12 @@ public class UserServices{
 	}
 
 	private boolean checkForMediumPriorityTicketServiceEmployee(Ticket ticket) {
-		System.out.println("checkForMediumPriorityTicketServiceEmployee(Ticket ticket) {");
 		try {
 			List<ServiceEngineer> serviceEmployeeRecords = serviceEngineerRepository.getMediumPriorityTicketServiceEngineers(
 					ticket.getCategory().getCode(), 
 					"MED");
 			
-			System.out.println("\nResonse = " + serviceEmployeeRecords + "\n");
-			
 			if(serviceEmployeeRecords != null && serviceEmployeeRecords.size() >= 1) {
-				System.out.println("Got a ServiceEmployee who is working on a MEDIUM priority Ticket ");
 				ServiceEngineer mediumPriorityTicketServiceEngineer = serviceEmployeeRecords.get(0);
 
 				Status pendingStatus = statusRepository.getStatus("PEND");
@@ -152,9 +127,7 @@ public class UserServices{
 				
 				ticketRepository.save(ticket);
 				serviceEngineerRepository.save(mediumPriorityTicketServiceEngineer);
-				
-				System.out.println( "Current " + ticket.getPriority().getValue() + " Priroyt Ticket has been assigned to "
-						+  ticket.getAssigned_to().getName() +"");
+
 				return true;
 			}
 		}catch(Exception e) {
@@ -166,13 +139,10 @@ public class UserServices{
 	}
 
 	private boolean checkForLowPriorityTicketServiceEmployee(Ticket ticket) {
-		System.out.println("\n\nprivate boolean checkForLowPriorityTicketServiceEmployee(Ticket ticket) {");
 		
 		List<ServiceEngineer> serviceEmployeeRecords = serviceEngineerRepository.findLowPriorityTicketServiceEngineers(
 				ticket.getCategory().getCode(),
 				"LOW");
-		
-		System.out.println("Response = " + serviceEmployeeRecords);
 		
 		if(serviceEmployeeRecords != null && serviceEmployeeRecords.size() >= 1) {
 			
@@ -198,10 +168,6 @@ public class UserServices{
 			ticketRepository.save(ticket);
 			serviceEngineerRepository.save(lowPriorytTicketServiceEngineer);
 			
-			System.out.println("\n\n In private boolean checkForLowPriorityTicketServiceEmployee(Ticket ticket) {\n"
-					+ "ticket = " + ticket + "\n" 
-					+ "SE = " + lowPriorytTicketServiceEngineer);
-			
 			return true;
 		}
 		
@@ -209,14 +175,10 @@ public class UserServices{
 	}
 
 	private boolean checkAndAssignTicketForUnAssignedServiceEmployee(Ticket ticket) {
-		System.out.println("Inside = private boolean checkAndAssignTicketForUnAssignedServiceEmployee(Ticket ticket) {");
 		
 		List<ServiceEngineer> serviceEmployeeRecords = serviceEngineerRepository.findUnAssignedEmployee(ticket.getCategory().getCode());
 		
-		System.out.println("--> RESPONSE = " + serviceEmployeeRecords);
-		
 		if(serviceEmployeeRecords != null && serviceEmployeeRecords.size() >= 1) {
-			System.out.println("Inside : if(serviceEmployeeRecords != null && serviceEmployeeRecords.size() >= 1) {");
 			
 			/* updating ticket table */
 			ticket.setAssigned_to( serviceEmployeeRecords.get(0).getUser() );

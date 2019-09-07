@@ -172,7 +172,6 @@ body {
 <!-- START:  If person tries to Come back after loggin OUT : redirect him/her to login page -->
 <%
 	if(session.getAttribute("user_name") == null){
-		System.out.println("session.getAttribute(user_name) == null");
 		
 		response.sendRedirect("index.jsp?warning=UnAuthorizedLogin");
 		return;
@@ -213,15 +212,6 @@ if(request.getParameter("display") != null){
 <%
 
 if(request.getParameter("operation") != null){
-	System.out.println("Inside: if(request.getParameter('operation') != null){");
-	System.out.println("request.getParameter('operation')) = " + request.getParameter("operation"));
-	
-	System.out.println("\n\nuser_name in session = " + session.getAttribute("user_name") + "\n\n");
-	
-	System.out.println("\nlistOfTickets = " + (ArrayList<Ticket>)session.getAttribute("listOfTickets") + "\n");
-	System.out.println("(List<Priority>) session.getAttribute('listOfPriorities'); = " + (List<Priority>) session.getAttribute("listOfPriorities") + "\n");
-	
-	
 	String operation = (String) request.getParameter("operation");
 
 	if(operation.equals("ShowAllTickets")){
@@ -250,13 +240,11 @@ if(request.getParameter("operation") != null){
 
 <%
 		if(session.getAttribute("listOfTickets") == null){
-			System.out.println("NULL IN ListOfTickets");
+			//System.out.println("NULL IN ListOfTickets");
 		}else{
 		
 		ArrayList<Ticket> listOfTickets = (ArrayList<Ticket>)session.getAttribute("listOfTickets");
-        
-		System.out.println("\nIN SE.jsp line 254 Tickets = " + listOfTickets + "\n\n");
-		
+       
 	        for(int i=0 ; i < listOfTickets.size() ; ++i){
 	%>
 	
@@ -284,7 +272,6 @@ if(request.getParameter("operation") != null){
 					    <div class="dropdown-content">
 					    <%
 					    List<Priority> listOfPriorities = (List<Priority>) session.getAttribute("listOfPriorities");
-					    System.out.println("\n\n IN JSP 284 : List<Priority> listOfPriorities = " + listOfPriorities + "\n\n");
 						for(Priority priority : listOfPriorities) {
 							if(!priority.getValue().equals( listOfTickets.get(i).getPriority().getValue()) ){
 					    		%>
@@ -330,7 +317,6 @@ if(request.getParameter("operation") != null){
 <!--  operation=DisplayAverageTimeTakenPerEngineer  -->
 <%
 	if(operation.equals("DisplayAverageTimeTakenPerEngineer")){
-		System.out.println("List OF Average_Time_Taken_Per_Engineer" + (ArrayList<ArrayList>)session.getAttribute("Average_Time_Taken_Per_Engineer"));
 		
 		ArrayList<ArrayList> averageTimeTakenPerEngineer = (ArrayList<ArrayList>)session.getAttribute("Average_Time_Taken_Per_Engineer");
 		
@@ -345,6 +331,8 @@ if(request.getParameter("operation") != null){
 
 <%
 		for(ArrayList userNameAndHisStats : averageTimeTakenPerEngineer){
+
+		
 %>
 
 <!-- Table rows -->
@@ -367,7 +355,7 @@ if(request.getParameter("operation") != null){
 
 <%
 	if(operation.equals("DisplayAverageTimeTakenPerSeverity")){
-	System.out.println("Inside: if(operation.equals('DisplayAverageTimeTakenPerSeverity')){");
+
 %>
 <h2>Avergae time taken per Severity</h2>
 <table>
@@ -379,7 +367,7 @@ if(request.getParameter("operation") != null){
 <%
 		
 		ArrayList averageTimeTakenPerSeverity = (ArrayList)session.getAttribute("Avg_Time_Taken_Per_Severity");
-		System.out.println("ArrayList averageTimeTakenPerSeverity = " + averageTimeTakenPerSeverity + "-----------\n");
+
 		for(Object listOfserverityAndTime : averageTimeTakenPerSeverity){
 			ArrayList severityAndTime = (ArrayList) listOfserverityAndTime;
 %>
@@ -431,7 +419,6 @@ if(request.getParameter("operation") != null){
 
     Period intervalPeriod = Period.between(dateFrom, dateTo);
 
-    System.out.println("Difference of days: " + intervalPeriod.getDays());
     Integer age = intervalPeriod.getDays();
 %>
 <!-- Table rows -->
@@ -464,8 +451,6 @@ if(request.getParameter("operation") != null){
 <%
 //}	//  close brase of NULL check
 %>
-
-
 
 <!-- </center>  -->
 </body>
