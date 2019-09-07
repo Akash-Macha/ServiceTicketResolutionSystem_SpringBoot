@@ -8,7 +8,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Service Ticket Management System</title>
+	<title>Welcome Admin: <%= session.getAttribute("user_name") %></title>
 	<style type="text/css">
 	*{
 	text-align:center

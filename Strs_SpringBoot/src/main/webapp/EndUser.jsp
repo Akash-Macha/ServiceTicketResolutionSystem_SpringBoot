@@ -149,7 +149,7 @@ function validateDate(){
 }
 </script>
 
-<title>Service Ticket Resolution System</title>
+<title>Welcome <%= session.getAttribute("user_name") %></title>
 </head>
 <body>
 
