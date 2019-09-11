@@ -198,9 +198,9 @@ if(request.getParameter("operation") != null){
 			<br>
 			<br>
 			<form action="Add_User" method="POST"  onsubmit="CheckIsEmptyUser();">
-			<label>Name: </label> Name: <input type="text" id = "name" name="name" ><br>
-			<label>User Name: </label> User Name: <input type="text" id = "user_name" name="user_name" ><br>
-			<label>Password: </label> Password: <input type="password" id = "password" name="password"><br>
+			<label>Name: </label><input type="text" id = "name" name="name" ><br>
+			<label>User Name: </label><input type="text" id = "user_name" name="user_name" ><br>
+			<label>Password: </label><input type="password" id = "password" name="password"><br>
 								
 				<input type="submit" value="submit">
 			</form>

@@ -337,8 +337,32 @@ if(request.getParameter("operation") != null){
 
 <!-- Table rows -->
     <tr>
-    	<td> <%= userNameAndHisStats.get(0)  %> </td>
-	    <td> <%= userNameAndHisStats.get(1)  %> </td>
+    	<td>
+    		<%
+    			try{
+    				%>
+						<%= userNameAndHisStats.get(0)  %>
+    				<%	
+    			}catch(Exception e){
+    				%>
+    					<%= "None"  %>
+    				<%
+    			}
+    		%> 
+    	</td>
+	    <td> 
+			<%
+    			try{
+    				%>
+						<%= userNameAndHisStats.get(1)  %>
+    				<%	
+    			}catch(Exception e){
+    				%>
+    					<%= "Nothing to show!"  %>
+    				<%
+    			}
+    		%> 
+	    </td>
 	</tr>
 <%
 		}
@@ -352,7 +376,6 @@ if(request.getParameter("operation") != null){
 <!-- END: AverageTimeTakenPerEngineer -->
 
 <!-- START: AverageTimeTakenPerSeverity -->
-
 <%
 	if(operation.equals("DisplayAverageTimeTakenPerSeverity")){
 
@@ -375,8 +398,32 @@ if(request.getParameter("operation") != null){
 <!-- Table rows -->
 
     <tr>
-    	<td> <%= severityAndTime.get(0) %></td>
-	    <td> <%= severityAndTime.get(1)  %> Day(s)</td>
+    	<td>
+			<%
+    			try{
+    				%>
+						<%= severityAndTime.get(0)  %>
+    				<%	
+    			}catch(Exception e){
+    				%>
+    					<%= "Nothing to show!"  %>
+    				<%
+    			}
+    		%> 
+    	</td>
+	    <td>
+			<%
+    			try{
+    				%>
+						<%= severityAndTime.get(1)  %> Day(s)
+    				<%	
+    			}catch(Exception e){
+    				%>
+    					<%= "Nothing to show!"  %>
+    				<%
+    			}
+    		%> 
+	    </td>
 	</tr>
 <%
 		}
