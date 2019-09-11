@@ -1,2 +1,2 @@
 # ServiceTicketResolutionSystem_SpringBoot
-ServiceTicketResolutionSystem - SpringBoot
+It's ServiceTicketResolutionSystem build using SpringBoot
