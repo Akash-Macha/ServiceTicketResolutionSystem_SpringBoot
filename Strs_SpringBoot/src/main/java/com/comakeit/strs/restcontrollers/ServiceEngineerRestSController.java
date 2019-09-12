@@ -1,4 +1,4 @@
-package com.comakeit.strs.restApiControllers;
+package com.comakeit.strs.restcontrollers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +21,7 @@ public class ServiceEngineerRestSController {
 
     @RequestMapping(value = "/updateTicketPriority")
     public String updateTicketPriority(@RequestBody ArrayList<String> updateTicketValues) {
-        String status = serviceEngineerServices.updateTicketPriority(updateTicketValues);
-
-        return status;
+        return serviceEngineerServices.updateTicketPriority(updateTicketValues);
     }
 
     @RequestMapping(value="/getStats")

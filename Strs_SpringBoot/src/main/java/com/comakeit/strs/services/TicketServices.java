@@ -48,7 +48,7 @@ public class TicketServices {
             ticket.setClosed_date( LocalDate.now() );
             ticket.setStatus( (Status) statusRepository.getStatus("CLSD") );
             
-            /* upadting serviceEngineer */
+            /* updating serviceEngineer */
             User user= ticket.getAssigned_to();
             ServiceEngineer serviceEngineer = serviceEngineerRepository.getServiceEngineerByUserId( (Integer) user.getId() );
             
@@ -66,7 +66,6 @@ public class TicketServices {
         
         return "false";
     }
-
 
     public String checkPendingTicket(String ticket_id) {
         Optional<Ticket> optionalTicket = ticketRepository.findById( Integer.parseInt(ticket_id) );

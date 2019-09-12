@@ -1,4 +1,4 @@
-package com.comakeit.strs.restApiControllers;
+package com.comakeit.strs.restcontrollers;
 
 import java.util.List;
 

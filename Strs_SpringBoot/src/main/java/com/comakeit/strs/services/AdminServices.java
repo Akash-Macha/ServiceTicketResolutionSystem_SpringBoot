@@ -67,7 +67,6 @@ public class AdminServices {
 
 	public String addServiceEngineer(@RequestBody ServiceEngineer serviceEngineer) {
 		try {
-			/* save SE */
 			serviceEngineerRepository.save(serviceEngineer);
 			
 			return "added";
