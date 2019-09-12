@@ -8,7 +8,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Service Ticket Management System</title>
+	<title>Welcome Admin: <%= session.getAttribute("user_name") %></title>
 	<style type="text/css">
 	*{
 	text-align:center
@@ -37,6 +37,39 @@ tr:nth-child(even) {
 }
 /*----END: Table --------*/
 	</style>
+	<script type="text/javascript">
+		function CheckIsEmpty(){
+				let name = document.getElementById("name").value;
+				let value = document.getElementById("value").value;
+				let code = document.getElementById("code").value;
+				
+				alert(name);
+				alert(code);
+
+				if((value !== '' && code !== '') || (name !== '' && code !== ''))
+					//alert("inside if")Ṣ
+					return true;
+				}
+				
+				alert("Name or Code field cannot be empty!");
+				return false;
+			}
+
+		function CheckIsEmptyUser(){
+			let name = document.getElementById("name").value;
+			let user_name = document.getElementById("user_name").value;
+			let code = document.getElementById("code").value;
+			alert(name);
+			alert(code);
+
+			if(name ==='' || user_name === '' || code === ''){
+				alert("Name or Code field cannot be empty!");
+				return false;
+			}
+			
+			return true;
+		}
+	</script>
 </head>
 <body>
 
@@ -49,7 +82,6 @@ tr:nth-child(even) {
 <!-- START:  If person tries to Come back after loggin OUT : redirect him/her to login page -->
 <%
 	if(session.getAttribute("user_name") == null){
-		System.out.println("session.getAttribute(user_name) == null");
 		response.sendRedirect("index.jsp?warning=UnAuthorizedLogin");
 		return;
 	}
@@ -74,14 +106,27 @@ tr:nth-child(even) {
 			%>
 			<h2>Please check your Department Name / Code !</h2>
 			<%
+		} else if(status.equals("addedNewStatus")){
+			%>
+			<h2>Status Added Successfully!</h2>
+			<%
+		}else if(status.equals("notAddedNewStatus")){
+			%>
+			<h2>Please check your Status Name / Code !</h2>
+			<%
+		}else if(status.equals("notAddedNewRole")){
+			%>
+			<h2>Please check your Role Name / Code !</h2>
+			<%
+		}else if(status.equals("notAddedNewPriority")){
+			%>
+			<h2>Please check your Priority Name / Code !</h2>
+			<%
 		}
-		
 	}
 %>
-<!-- END: If person tries to Come back after loggin OUT -->
-
+<!-- END: If person tries to Come back after loggin OUT --> 
 <h1>Welcome <%= session.getAttribute("user_name") %></h1>
-
 <div class="alignColumns">
 <p>Users</p>
 <a href="admin-Show_All_User">Show All Users</a><br>
@@ -90,9 +135,9 @@ tr:nth-child(even) {
 
 <a href="admin-ShowDepartmentsAndAddDepartment">View Departments or Add a Department</a><br>
 
-<!-- <a href="admin-ShowStatusesAndAddStatuses">View Statuses or Add a Status</a><br>
+<a href="admin-ShowStatusesAndAddStatuses">View Statuses or Add a Status</a><br>
 <a href="admin-ShowRolesAndAddRole">View Role's or Add a Role</a><br>
-<a href="admin-ShowPrioritiesAndAddPriority">View Tickets Priorities or Add a priority</a><br> -->
+<a href="admin-ShowPrioritiesAndAddPriority">View Tickets Priorities or Add a priority</a><br>
 </div>
 
 <form action="Logout" method="POST">
@@ -104,7 +149,6 @@ tr:nth-child(even) {
 
 if(request.getParameter("operation") != null){
 	String operation = request.getParameter("operation");
-	System.out.println("request.getParameter('operation');" + request.getParameter("operation") + "\n");
 	if(operation.equals("addedUser")){
 		%>
 		<h2>Added User!</h2>
@@ -132,21 +176,20 @@ if(request.getParameter("operation") != null){
   </tr>
   <%
   	ArrayList<User> listOfUsers = (ArrayList<User>) session.getAttribute("listOfUsers");
-    	System.out.println("--> all users : " + listOfUsers);
       			for(User user : listOfUsers){
   %>
-   <tr>
-    <td> <%= user.getId()  %> </td>
-    <td> <%= user.getName() %> </td>
-    <td> <%= user.getUser_name() %> </td>
-    <td> <%= user.getPassword() %> </td>
-    <td> <%= user.getRole().getName() %> </td>
-    <td>
-        <!-- <form action="AdminOperations?operation=DeleteUser&UserId=<%= user.getId() %>" method="POST">
-    		<input type="submit" class="close_button" value="Delete User">
-		</form> -->
-    </td>
-  </tr>
+		   <tr>
+		    <td> <%= user.getId()  %> </td>
+		    <td> <%= user.getName() %> </td>
+		    <td> <%= user.getUser_name() %> </td>
+		    <td> <%= user.getPassword() %> </td>
+		    <td> <%= user.getRole().getName() %> </td>
+		    <!-- <td>
+		         <form action="AdminOperations?operation=DeleteUser&UserId=<%= user.getId() %>" method="POST">
+		    		<input type="submit" class="close_button" value="Delete User">
+				</form> 
+		    </td> -->
+		  </tr>
 			<%
   			}
 		}else if(operation.equals("Add_user")){
@@ -154,10 +197,10 @@ if(request.getParameter("operation") != null){
 	</table>
 			<br>
 			<br>
-			<form action="Add_User" method="POST">
-				Name: <input type="text" name="name" ><br>
-				User Name: <input type="text" name="user_name" ><br>
-				Password: <input type="password" name="password"><br>
+			<form action="Add_User" method="POST"  onsubmit="CheckIsEmptyUser();">
+			<label>Name: </label><input type="text" id = "name" name="name" ><br>
+			<label>User Name: </label><input type="text" id = "user_name" name="user_name" ><br>
+			<label>Password: </label><input type="password" id = "password" name="password"><br>
 								
 				<input type="submit" value="submit">
 			</form>
@@ -166,21 +209,20 @@ if(request.getParameter("operation") != null){
 		}else if(operation.equals("Add_Service_Engineer")){
 			%>
 			
-			<form action="Add_Service_Engineer" method="POST">
-				Name: <input type="text" name="name" ><br>
-				User Name: <input type="text" name="user_name" ><br>
-				Password: <input type="password" name="password"><br>
+			<form action="Add_Service_Engineer" method="POST" onsubmit="CheckIsEmptyUser();">
+			<label>Name: </label><input type="text" id = "name" name="name" ><br>
+			<label>User Name: </label><input type="text" id = "user_name" name="user_name" ><br>
+			<label>Password: </label><input type="password" id = "password" name="password"><br>
 
-<label for="departmentName">Role:</label> 
-<select id="departmentName" name="departmentName"> 
+				<label for="departmentName">Department: </label> 
+				<select id="departmentName" name="departmentName"> 
 <%
-		List<Department> listOfDepartments = (List<Department>) session.getAttribute("listOfDepartments");
-		System.out.println("In JSP----> : " + listOfDepartments);
-		for(Department department : listOfDepartments) {
+					List<Department> listOfDepartments = (List<Department>) session.getAttribute("listOfDepartments");
+					for(Department department : listOfDepartments) {
 %>
-  			<option value="<%= department.getName() %>"><%= department.getName() %></option>
+  						<option value="<%= department.getName() %>"><%= department.getName() %></option>
 <%
-		}
+					}
 %>
 </select><br>
 				<input type="submit" value="submit">
@@ -189,7 +231,7 @@ if(request.getParameter("operation") != null){
 			<%
 		}else if(operation.equals("ShowDepartmentsAndAddDepartment")){
 			%>
-			<form action="admin-addNewDepartment">
+			<form action="admin-addNewDepartment" method="POST" onsubmit="CheckIsEmpty();">
 			<table>
 			  <tr>
 			    <th>Id</th>
@@ -200,7 +242,6 @@ if(request.getParameter("operation") != null){
 <%
 				/* Get the ArrayList from the sessoin */
 				List<Department> listOfDepartments = (List<Department>) session.getAttribute("listOfDepartments");
-				System.out.println("In JSP----> : " + listOfDepartments);
 				for(Department department : listOfDepartments) {
 %>
 					<tr>
@@ -211,18 +252,108 @@ if(request.getParameter("operation") != null){
 <%
 				}
 %>
-	
 			</table>
 			
 			<label>Add New Department</label><br>
-			<label>Department Name: </label><input type="text" name="newDepartmentName" onkeydown="checkIsEmpty();"><br>
-			<label>Department Code: </label><input type="text" name="newDepartmentCode" onkeydown="checkIsEmpty();"><br>
+			<label>Department Name: </label><input type="text" id="name" name="newDepartmentName" ><br>
+			<label>Department Code: </label><input type="text" id="code" name="newDepartmentCode" ><br>
 			
 			<input type="submit" name="submitNewDepartment">
 			</form>
 			<%
-		}else if(operation.equals("ShowDepartmentsAndAddDepartment")){
-			
+		}else if(operation.equals("ShowStatusesAndAddStatuses")){
+			%>
+			<form action="admin-addNewStatus"  method="POST" onsubmit="CheckIsEmpty();">
+				<table>
+				  <tr>
+				    <th>Id</th>
+				    <th>Name</th>
+				    <th>Code</th>
+				  </tr>		  
+	<%
+					/* Get the ArrayList from the sessoin */
+					List<Status> listOfStatuses = (List<Status>) session.getAttribute("listOfStatuses");
+					for(Status statusValues : listOfStatuses) {
+	%>
+						<tr>
+		  					<td><%= statusValues.getId() %></td>
+		  					<td><%= statusValues.getValue() %></td>
+		  					<td><%= statusValues.getCode() %></td>
+	  					</tr>
+	<%
+					}
+	%>
+				</table>
+				
+				<label>Add New Status</label><br>
+				<label>Status Name: </label><input type="text" id="name" name="newStatusValue" ><br>
+				<label>Status Code: </label><input type="text" id="code" name="newStatusCode" ><br>
+				
+				<input type="submit" name="submitNewStatus">
+			</form>
+			<%
+		}else if(operation.equals("ShowRolesAndAddRole")){
+			%>
+			<form action="admin-addNewRole" method="POST" onsubmit="CheckIsEmpty();">
+				<table>
+				  <tr>
+				    <th>Id</th>
+				    <th>Name</th>
+				    <th>Code</th>
+				  </tr>		  
+	<%
+					/* Get the ArrayList from the sessoin */
+					List<Role> listOfRoles = (List<Role>) session.getAttribute("listOfRoles");
+					for(Role role : listOfRoles) {
+	%>
+						<tr>
+		  					<td><%= role.getId() %></td>
+		  					<td><%= role.getName() %></td>
+		  					<td><%= role.getCode() %></td>
+	  					</tr>
+	<%
+					}
+	%>
+				</table>
+				
+				<label>Add New Role</label><br>
+				<label>Status Name: </label><input type="text" id="name" name="newRoleName" ><br>
+				<label>Status Code: </label><input type="text" id="code"  name="newRoleCode" ><br>
+				
+				<input type="submit" name="submitNewRole">
+			</form>
+			<%
+		} else if(operation.equals("ShowPrioritiesAndAddPriority")){
+			%>
+			<form action="admin-addNewPriority" method="POST" onsubmit="CheckIsEmpty();">
+				<table>
+				  <tr>
+				    <th>Id</th>
+				    <th>Value</th>
+				    <th>Code</th>
+				  </tr>		  
+	<%
+					/* Get the ArrayList from the sessoin */
+					List<Priority> listOfPriorities = (List<Priority>) session.getAttribute("listOfPriorities");
+					for(Priority priority : listOfPriorities) {
+	%>
+						<tr>
+		  					<td><%= priority.getId() %></td>
+		  					<td><%= priority.getValue() %></td>
+		  					<td><%= priority.getCode() %></td>
+	  					</tr>
+	<%
+					}
+	%>
+				</table>
+				
+				<label>Add New Priority</label><br>
+				<label>Priority Value: </label><input type="text" id="name" name="newPriorityValue" ><br>
+				<label>Priority Code: </label><input type="text" id="code"  name="newPriorityCode" ><br>
+				
+				<input type="submit" name="submitNewPriority">
+			</form>
+			<%
 		}
 	}
 %>

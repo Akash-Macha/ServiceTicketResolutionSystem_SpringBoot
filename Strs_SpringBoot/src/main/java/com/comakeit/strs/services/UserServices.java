@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.comakeit.strs.entites.Department;
 import com.comakeit.strs.entites.Priority;
@@ -13,6 +12,7 @@ import com.comakeit.strs.entites.ServiceEngineer;
 import com.comakeit.strs.entites.Status;
 import com.comakeit.strs.entites.Ticket;
 import com.comakeit.strs.entites.User;
+import com.comakeit.strs.exceptions.STRSUnAuthorizedException;
 import com.comakeit.strs.repositories.IServiceEngineerRepository;
 import com.comakeit.strs.repositories.IStatusRepository;
 import com.comakeit.strs.repositories.ITicketRepository;
@@ -33,8 +33,11 @@ public class UserServices{
 	@Autowired
 	private IStatusRepository statusRepository;
 	
-	public Role validate(@RequestBody User user) {
-		return userRepository.validate(user.getUser_name(), user.getPassword());
+	public Role validate(User user) {
+		Role role = userRepository.validate(user.getUser_name(), user.getPassword());
+		System.out.println("role = " + role);
+
+		return role;
 	}
 	
 	public List<Department> getListOfDepartment(){
@@ -49,12 +52,11 @@ public class UserServices{
 		return userRepository.findAll();
 	}
 	
-	public String insertTicket(@RequestBody Ticket ticket) {
+	public String insertTicket(Ticket ticket) {
 		if(checkAndAssignTicketForUnAssignedServiceEmployee(ticket)) {
 			return "Inserted";
 		}
-		
-		if(ticket.getPriority().getCode().equals("HIG")) {
+		else if(ticket.getPriority().getCode().equals("HIG")) {
 			
 			if(checkForLowPriorityTicketServiceEmployee(ticket)) {
 				

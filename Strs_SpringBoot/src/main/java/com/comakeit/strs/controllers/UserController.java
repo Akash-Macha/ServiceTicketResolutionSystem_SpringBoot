@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -25,6 +26,7 @@ import com.comakeit.strs.entites.Priority;
 import com.comakeit.strs.entites.Role;
 import com.comakeit.strs.entites.Ticket;
 import com.comakeit.strs.entites.User;
+import com.comakeit.strs.exceptions.STRSUnAuthorizedException;
 
 
 @Controller
@@ -32,97 +34,100 @@ public class UserController {
 	RestTemplate restTemplate = new RestTemplate();
 	
 	@RequestMapping("Validate")
-	public ModelAndView validate(User user, HttpServletRequest request) {
-		Role role = restTemplate.postForObject(	Constants.url + "/user" +  "/Validate", 
-												user, 
-												Role.class);
-		
-		HttpSession session = request.getSession();
-		session.setAttribute("user_name", user.getUser_name());
-		
+	public ModelAndView validate(User user, HttpServletRequest request) throws Exception{
 		ModelAndView modelAndView = new ModelAndView();
-		if(role == null) {
+		Role role = null;
+		try {
+			role = restTemplate.postForObject(	Constants.url + "/user" +  "/Validate", 
+													user, 
+													Role.class);
+	
+			HttpSession session = request.getSession();
+			session.setAttribute("user_name", user.getUser_name());
+			
+			if(role.getCode().equals("SER_ENGG")) {
+				modelAndView.setViewName("ServiceEngineer.jsp");
+				
+				/* set listOfDepartments */
+				ResponseEntity<List<Department>> responseEntityDepartments = restTemplate.exchange(
+						Constants.url + "/user" +  "/getDepartments",
+				HttpMethod.GET, null, 
+				new ParameterizedTypeReference<List<Department>>() {});
+			
+				
+				List<Department> listOfDepartments = responseEntityDepartments.getBody();
+				
+				session.setAttribute("listOfDepartments", listOfDepartments);
+				
+				/* listOfPriorities */
+				ResponseEntity<List<Priority>> responseEntityPriorities= restTemplate.exchange(
+						Constants.url + "/user" +  "/getPriorities",
+				HttpMethod.GET, null, 
+				new ParameterizedTypeReference<List<Priority>>() {});
+				
+				List<Priority> listOfPriorities = responseEntityPriorities.getBody();
+				session.setAttribute("listOfPriorities", listOfPriorities);
+				
+				/* listOfUsers */
+				ResponseEntity<List<User>> responseEntityUsers= restTemplate.exchange(
+						Constants.url + "/user" +  "/getUsers",
+						HttpMethod.GET, null, 
+						new ParameterizedTypeReference<List<User>>() {});
+				
+				List<User> listOfUsers = responseEntityUsers.getBody();
+				session.setAttribute("listOfUsers", listOfUsers);
+				
+				return modelAndView;
+	
+			}else if(role.getCode().equals("END_U")) {
+	
+				/* set listOfDepartments */
+				ResponseEntity<List<Department>> responseEntityDepartments = restTemplate.exchange(
+						Constants.url + "/user" +  "/getDepartments",
+				HttpMethod.GET, null, 
+				new ParameterizedTypeReference<List<Department>>() {});
+				
+				List<Department> listOfDepartments = responseEntityDepartments.getBody();
+				
+				session.setAttribute("listOfDepartments", listOfDepartments);
+				
+				/* listOfPriorities */
+				ResponseEntity<List<Priority>> responseEntityPriorities= restTemplate.exchange(
+						Constants.url + "/user" +  "/getPriorities",
+				HttpMethod.GET, null, 
+				new ParameterizedTypeReference<List<Priority>>() {});
+				
+				List<Priority> listOfPriorities = responseEntityPriorities.getBody();
+				session.setAttribute("listOfPriorities", listOfPriorities);
+				
+				/* listOfUsers */
+				ResponseEntity<List<User>> responseEntityUsers= restTemplate.exchange(
+						Constants.url + "/user" +  "/getUsers",
+						HttpMethod.GET, null, 
+						new ParameterizedTypeReference<List<User>>() {});
+				
+				List<User> listOfUsers = responseEntityUsers.getBody();
+				session.setAttribute("listOfUsers", listOfUsers);
+	
+				modelAndView.setViewName("EndUser.jsp");
+				return modelAndView;
+			}else if(role.getCode().equals("ADMN")) {
+				
+				/* set listOfRoles */
+				ResponseEntity<List<Department>> responseEntityDepartment = restTemplate.exchange(
+						Constants.url + "/user" +  "/getDepartments",
+				HttpMethod.GET, null, 
+				new ParameterizedTypeReference<List<Department>>() {});
+				
+				List<Department> listOfDepartments = responseEntityDepartment.getBody();
+				session.setAttribute("listOfDepartments", listOfDepartments);
+				
+				modelAndView.setViewName("Admin.jsp");
+				return modelAndView;
+			}
+		}catch(Exception e) {
+
 			modelAndView.setViewName("index.jsp?warning=UnAuthorizedLogin");
-
-			return modelAndView;
-		}
-		if(role.getCode().equals("SER_ENGG")) {
-			modelAndView.setViewName("ServiceEngineer.jsp");
-			
-			/* set listOfDepartments */
-			ResponseEntity<List<Department>> responseEntityDepartments = restTemplate.exchange(
-					Constants.url + "/user" +  "/getDepartments",
-			HttpMethod.GET, null, 
-			new ParameterizedTypeReference<List<Department>>() {});
-			
-			List<Department> listOfDepartments = responseEntityDepartments.getBody();
-			
-			session.setAttribute("listOfDepartments", listOfDepartments);
-			
-			/* listOfPriorities */
-			ResponseEntity<List<Priority>> responseEntityPriorities= restTemplate.exchange(
-					Constants.url + "/user" +  "/getPriorities",
-			HttpMethod.GET, null, 
-			new ParameterizedTypeReference<List<Priority>>() {});
-			
-			List<Priority> listOfPriorities = responseEntityPriorities.getBody();
-			session.setAttribute("listOfPriorities", listOfPriorities);
-			
-			/* listOfUsers */
-			ResponseEntity<List<User>> responseEntityUsers= restTemplate.exchange(
-					Constants.url + "/user" +  "/getUsers",
-					HttpMethod.GET, null, 
-					new ParameterizedTypeReference<List<User>>() {});
-			
-			List<User> listOfUsers = responseEntityUsers.getBody();
-			session.setAttribute("listOfUsers", listOfUsers);
-			
-			return modelAndView;
-		}else if(role.getCode().equals("END_U")) {
-			
-			modelAndView.setViewName("EndUser.jsp");
-			
-			/* set listOfDepartments */
-			ResponseEntity<List<Department>> responseEntityDepartments = restTemplate.exchange(
-					Constants.url + "/user" +  "/getDepartments",
-			HttpMethod.GET, null, 
-			new ParameterizedTypeReference<List<Department>>() {});
-			
-			List<Department> listOfDepartments = responseEntityDepartments.getBody();
-			
-			session.setAttribute("listOfDepartments", listOfDepartments);
-			
-			/* listOfPriorities */
-			ResponseEntity<List<Priority>> responseEntityPriorities= restTemplate.exchange(
-					Constants.url + "/user" +  "/getPriorities",
-			HttpMethod.GET, null, 
-			new ParameterizedTypeReference<List<Priority>>() {});
-			
-			List<Priority> listOfPriorities = responseEntityPriorities.getBody();
-			session.setAttribute("listOfPriorities", listOfPriorities);
-			
-			/* listOfUsers */
-			ResponseEntity<List<User>> responseEntityUsers= restTemplate.exchange(
-					Constants.url + "/user" +  "/getUsers",
-					HttpMethod.GET, null, 
-					new ParameterizedTypeReference<List<User>>() {});
-			
-			List<User> listOfUsers = responseEntityUsers.getBody();
-			session.setAttribute("listOfUsers", listOfUsers);
-
-			return modelAndView;
-		}else if(role.getCode().equals("ADMN")) {
-			
-			/* set listOfRoles */
-			ResponseEntity<List<Department>> responseEntityDepartment = restTemplate.exchange(
-					Constants.url + "/user" +  "/getDepartments",
-			HttpMethod.GET, null, 
-			new ParameterizedTypeReference<List<Department>>() {});
-			
-			List<Department> listOfDepartments = responseEntityDepartment.getBody();
-			session.setAttribute("listOfDepartments", listOfDepartments);
-			
-			modelAndView.setViewName("Admin.jsp");
 			return modelAndView;
 		}
 

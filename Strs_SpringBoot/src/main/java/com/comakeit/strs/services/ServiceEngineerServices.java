@@ -54,7 +54,6 @@ public class ServiceEngineerServices {
                     ticket.getCategory().getName(), 
                     ticket.getAssigned_to().getName());
             
-            
             if(otherHighPriortyTickets != null && otherHighPriortyTickets.size() >= 1) {
                 
                 Ticket otherHighPriortyTicket = otherHighPriortyTickets.get(0);
@@ -173,7 +172,6 @@ public class ServiceEngineerServices {
     }
 
     public List<Ticket> getAgingOfOpenTicket(String user_name) {
-        
         return ticketRepository.getAllOpenTickets(user_name);
     }
 }

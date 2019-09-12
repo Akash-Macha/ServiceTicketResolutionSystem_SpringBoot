@@ -62,13 +62,6 @@ code {
 /*-- END: styling for Button-- */
 </style>
 
-<%
-//String user_name = (String) session.getAttribute("user_name");
-	//	if(user_name != null)
-		//	response.sendRedirect("");
-		
-%>
-
 <title>Service Ticket Resolution System</title>
 </head>
 <body>
@@ -88,7 +81,6 @@ code {
 		%>
 
 		<h1>Welcome to the Service Ticket Resolution System</h1>
-
 		<h2>
 			Login
 			<h2>
