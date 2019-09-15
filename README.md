@@ -1,2 +1,2 @@
 # ServiceTicketResolutionSystem_SpringBoot
-It's ServiceTicketResolutionSystem build using SpringBoot
+It's a Service Ticket Resolution System build using SpringBoot
