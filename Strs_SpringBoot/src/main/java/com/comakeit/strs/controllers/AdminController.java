@@ -20,6 +20,7 @@ import com.comakeit.strs.entites.Role;
 import com.comakeit.strs.entites.ServiceEngineer;
 import com.comakeit.strs.entites.Status;
 import com.comakeit.strs.entites.User;
+import com.comakeit.strs.exceptions.STRSUserNotAddedExcpetion;
 
 @Controller
 public class AdminController {
@@ -70,7 +71,7 @@ public class AdminController {
 	            modelAndView.setViewName("Admin.jsp?operation=Add_user&warning=changeUserName");
 	        }
         }catch(Exception e) {
-//        	throw new STRSUserNotAddedExcpetion();
+
         	modelAndView.setViewName("Admin.jsp?operation=Add_user&warning=changeUserName");
         }
                

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.comakeit.strs.entites.ServiceEngineer;
 import com.comakeit.strs.entites.User;
+import com.comakeit.strs.exceptions.STRSNoContentException;
+import com.comakeit.strs.exceptions.STRSUserNotAddedExcpetion;
 import com.comakeit.strs.services.AdminServices;
 
 @RestController
@@ -23,13 +25,21 @@ public class AdminRestController {
     @RequestMapping(value= "/getAllUsers",
             method = RequestMethod.GET)
     public List<User> getAllUses() {
-        return adminServices.getAllUses();
+    	List<User> listOfUsers = adminServices.getAllUses();;
+    	if(listOfUsers == null){
+    		throw new STRSNoContentException("No Uses Found");
+    	}
+        return listOfUsers;
     }
     
     @RequestMapping(value= "/addUser",
             method = RequestMethod.POST)
     public String addUser(@RequestBody User user) {
-        return adminServices.addUser(user);
+        String status = adminServices.addUser(user); 
+        if(status == null) {
+        	throw new STRSUserNotAddedExcpetion("User Not Added!");
+        }
+        return status;
     }
     
     @RequestMapping(value= "/addUserServiceEngineer",
@@ -44,28 +54,24 @@ public class AdminRestController {
         return adminServices.addServiceEngineer(serviceEngineer);
     }
     
-//  addNewDepartment
     @RequestMapping(value= "/addNewDepartment",
             method = RequestMethod.POST)
     public String addNewDepartment(@RequestBody HashMap<String, String> newDepartmentDetails) {
         return adminServices.addNewDepartment(newDepartmentDetails);
     }
     
-//  addNewStatus
     @RequestMapping(value= "/addNewStatus",
             method = RequestMethod.POST)
     public String addNewStatus(@RequestBody HashMap<String, String> newStatusDetails) {
         return adminServices.addNewStatus(newStatusDetails);
     }
     
-//  addNewRole
     @RequestMapping(value= "/addNewRole",
             method = RequestMethod.POST)
     public String addNewRole(@RequestBody HashMap<String, String> newRoleDetails) {
         return adminServices.addNewRole(newRoleDetails);
     }
     
-//  addNewPriority
     @RequestMapping(value= "/addNewPriority",
             method = RequestMethod.POST)
     public String addNewPriority(@RequestBody HashMap<String, String> newPriorityDetails) {
