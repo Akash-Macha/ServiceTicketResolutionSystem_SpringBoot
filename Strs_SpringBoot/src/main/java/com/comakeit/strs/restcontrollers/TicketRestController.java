@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.comakeit.strs.entites.Ticket;
+import com.comakeit.strs.exceptions.STRSNoContentException;
 import com.comakeit.strs.services.TicketServices;
 
 
@@ -20,7 +21,11 @@ public class TicketRestController {
     
     @RequestMapping(value="/getAll/{user_name}")
     public List<Ticket> getAllTickets(@PathVariable(value="user_name") String user_name){
-        return  ticketServices.getAllTickets(user_name);
+    	List<Ticket> listOfTickets = ticketServices.getAllTickets(user_name);
+    	if(listOfTickets == null) {
+    		throw new STRSNoContentException("No Tickets Found");
+    	}
+        return listOfTickets;  
     }
     
     @RequestMapping(value="/close/{ticket_id}")

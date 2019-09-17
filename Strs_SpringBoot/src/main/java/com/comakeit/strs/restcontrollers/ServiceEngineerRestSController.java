@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.comakeit.strs.entites.Ticket;
+import com.comakeit.strs.exceptions.STRSNoContentException;
 import com.comakeit.strs.services.ServiceEngineerServices;
 
 @RestController
@@ -26,12 +27,20 @@ public class ServiceEngineerRestSController {
 
     @RequestMapping(value="/getStats")
     public ArrayList getAverageTimeTakenPerEngineer() {
-        return  serviceEngineerServices.getAverageTimeTakenPerEngineer();
+    	ArrayList averageTimeTakenPerEngineer = serviceEngineerServices.getAverageTimeTakenPerEngineer();
+    	if(averageTimeTakenPerEngineer == null) {
+    		throw new STRSNoContentException("No Data Found : \"Average Time Taken Per Engineer\"");
+    	}
+        return  averageTimeTakenPerEngineer;
     }
     
     @RequestMapping(value="/getStatsOfSeverity")
     public ArrayList getAverageTimeTakenPerServerity() {
-        return  serviceEngineerServices.getAverageTimeTakenPerServerity();
+    	ArrayList averageTimeTakenPerServerity = serviceEngineerServices.getAverageTimeTakenPerServerity();
+    	if(averageTimeTakenPerServerity == null) {
+    		throw new STRSNoContentException("No Data Found : \"Average Time Taken Per Serverity\"");
+    	}
+        return  averageTimeTakenPerServerity;
     }
     
     @RequestMapping(value="/getAgingOfOpenTicket/{user_name}")

@@ -13,6 +13,7 @@ import com.comakeit.strs.entites.Priority;
 import com.comakeit.strs.entites.Role;
 import com.comakeit.strs.entites.Ticket;
 import com.comakeit.strs.entites.User;
+import com.comakeit.strs.exceptions.STRSNoContentException;
 import com.comakeit.strs.exceptions.STRSUnAuthorizedException;
 //import com.comakeit.strs.entites.Priority;
 //import com.comakeit.strs.entites.Role;
@@ -37,30 +38,40 @@ public class UserRestController {
    		System.out.println("role = in Rest = " + role);
    		
 		if(role == null) {
-			throw new STRSUnAuthorizedException("Exception");
+			throw new STRSUnAuthorizedException("UnAuthorized User");
 		}
 		return role;
     }
 
     @RequestMapping(value="/getDepartments")
     public List<Department> getListOfDepartment(){
-        return userServices.getListOfDepartment(); 
+    	List<Department> listofDepartments = userServices.getListOfDepartment();
+    	if(listofDepartments == null) {
+    		throw new STRSNoContentException("No Content Found");
+    	}
+    	return listofDepartments;
     }
     
     @RequestMapping(value="/getPriorities")
     public List<Priority> getListOfPriority(){
-        return userServices.getListOfPriority(); 
+    	List<Priority> listOfPriorities = userServices.getListOfPriority();
+    	if(listOfPriorities == null) {
+    		throw new STRSNoContentException("No Content Found");
+    	}
+        return  listOfPriorities;
     }
     
     @RequestMapping(value="/getUsers")
     public List<User> getListOfUsers(){
-        return userServices.getListOfUsers();
+    	List<User> listOfUsers = userServices.getListOfUsers();
+    	if(listOfUsers == null) {
+    		throw new STRSNoContentException("No Content Found");
+    	}
+        return listOfUsers;
     }
     
-//  insertTicket
     @RequestMapping(value="/insertTicket")
     public String insertTicket(@RequestBody Ticket ticket){
         return userServices.insertTicket(ticket);
     }
-    
 }

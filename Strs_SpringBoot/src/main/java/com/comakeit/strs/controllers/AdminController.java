@@ -28,16 +28,18 @@ public class AdminController {
     
     @RequestMapping("admin-Show_All_User")
     public ModelAndView Show_All_User(HttpSession session) {
-//      get-all-users
-        ResponseEntity<List<User>> responseEntityUsers= restTemplate.exchange(
-                Constants.url + "/admin" +  "/getAllUsers",
-                HttpMethod.GET, null, 
-                new ParameterizedTypeReference<List<User>>() {});
-        
-        List<User> listOfUsers = (List<User>) responseEntityUsers.getBody();
-        
-        session.setAttribute("listOfUsers", listOfUsers);
-        
+    	try {
+	        ResponseEntity<List<User>> responseEntityUsers= restTemplate.exchange(
+	                Constants.url + "/admin" +  "/getAllUsers",
+	                HttpMethod.GET, null, 
+	                new ParameterizedTypeReference<List<User>>() {});
+	        
+	        List<User> listOfUsers = (List<User>) responseEntityUsers.getBody();
+	        
+	        session.setAttribute("listOfUsers", listOfUsers);
+    	}catch(Exception e) {
+    		
+    	}
         
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("Admin.jsp?operation=Show_All_User");
@@ -48,24 +50,30 @@ public class AdminController {
     @RequestMapping("Add_User")
     public ModelAndView addUser(User user) {
         
+    	ModelAndView modelAndView = new ModelAndView();
+    	
         if(     user.getName().equals("") || 
                 user.getPassword().equals("") ||
                 user.getUser_name().equals("")) {
             return new ModelAndView("Admin.jsp?operation=Add_user&warning=changeUserName");
         }
         
-        String status = restTemplate.postForObject(
-                Constants.url + "/admin/addUser", 
-                user,
-                String.class);
-                
-        ModelAndView modelAndView = new ModelAndView();
-        if(status.equals("added")) {
-            modelAndView.setViewName("Admin.jsp?operation=addedUser");
-        }else if(status.equals("notAdded")) {
-            modelAndView.setViewName("Admin.jsp?operation=Add_user&warning=changeUserName");
+        try {
+	        String status = restTemplate.postForObject(
+	                Constants.url + "/admin/addUser", 
+	                user,
+	                String.class);
+	        
+	        if(status.equals("added")) {
+	            modelAndView.setViewName("Admin.jsp?operation=addedUser");
+	        }else if(status.equals("notAdded")) {
+	            modelAndView.setViewName("Admin.jsp?operation=Add_user&warning=changeUserName");
+	        }
+        }catch(Exception e) {
+//        	throw new STRSUserNotAddedExcpetion();
+        	modelAndView.setViewName("Admin.jsp?operation=Add_user&warning=changeUserName");
         }
-        
+               
         return modelAndView;
     }
     
@@ -89,11 +97,15 @@ public class AdminController {
         user.setPassword(password);
         user.setUser_name(user_name);
         
+        try {
         /* adding user in User Table */
         user = restTemplate.postForObject(
                 Constants.url + "/admin/addUserServiceEngineer", 
                 user,
                 User.class);
+        }catch(Exception e) {
+        	
+        }
         
         ModelAndView modelAndView = new ModelAndView();
         if(user != null) {
