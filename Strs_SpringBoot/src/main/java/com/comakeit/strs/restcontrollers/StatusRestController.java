@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.comakeit.strs.entites.Status;
+import com.comakeit.strs.exceptions.STRSNoContentException;
 import com.comakeit.strs.repositories.IStatusRepository;
 
 @RestController
@@ -18,6 +19,10 @@ public class StatusRestController {
 	
 	@RequestMapping(value="/getAllStatuses")
 	public List<Status> getAllStatuses() {
-		return statusRepository.findAll();
+		List<Status> listOfStatus = statusRepository.findAll();
+		if(listOfStatus == null) {
+			throw new STRSNoContentException("No Statuses Found");
+		}
+		return listOfStatus;
 	}
 }

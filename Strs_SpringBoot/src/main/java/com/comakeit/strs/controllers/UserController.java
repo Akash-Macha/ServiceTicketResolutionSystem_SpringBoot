@@ -147,16 +147,23 @@ public class UserController {
 	public ModelAndView showAllTickets(HttpSession session) {
 		
 		/* get all the tickets and put them in session and redirect to EndUser.jsp to display them */
-		/* listOfUsers */
-		ResponseEntity<List<Ticket>> responseEntityUsers= restTemplate.exchange(
-				Constants.url + "/ticket" +  "/getAll" + "/" + session.getAttribute("user_name"),
-				HttpMethod.GET, null, 
-				new ParameterizedTypeReference<List<Ticket>>() {});
 		
-		List<Ticket> listOfTickets = responseEntityUsers.getBody();
-		session.setAttribute("listOfTickets", listOfTickets);
 		
 		ModelAndView modelAndView = new ModelAndView();
+		
+		try {
+			ResponseEntity<List<Ticket>> responseEntityUsers= restTemplate.exchange(
+					Constants.url + "/ticket" +  "/getAll" + "/" + session.getAttribute("user_name"),
+					HttpMethod.GET, null, 
+					new ParameterizedTypeReference<List<Ticket>>() {});
+			
+			List<Ticket> listOfTickets = responseEntityUsers.getBody();
+			session.setAttribute("listOfTickets", listOfTickets);
+		}catch(Exception e) {
+
+		}
+
+		
 		modelAndView.setViewName("EndUser.jsp?operation=ShowAllTickets");
 		
 		return modelAndView;
