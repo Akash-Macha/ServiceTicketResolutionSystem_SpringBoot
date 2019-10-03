@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.comakeit.strs.constants.Constants;
 import org.springframework.context.ConfigurableApplicationContext;
 
+
 @SpringBootApplication
 public class StrsSpringBootApplication {
 

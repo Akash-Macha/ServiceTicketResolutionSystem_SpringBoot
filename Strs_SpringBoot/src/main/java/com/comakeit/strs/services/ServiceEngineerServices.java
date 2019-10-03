@@ -85,6 +85,8 @@ public class ServiceEngineerServices {
                  *  he/she should be working on that particular ticket itself */
             
                 /* updating ServiceEngineer table with otherHighPriorityTicket  */
+            	
+//            	ticket.setPriority( );
                 User user = ticket.getAssigned_to();
                 ServiceEngineer serviceEngineer = serviceEngineerRepository.getServiceEngineerByUserId(user.getId());
                 

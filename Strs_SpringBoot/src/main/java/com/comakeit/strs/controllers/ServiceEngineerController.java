@@ -65,12 +65,9 @@ public class ServiceEngineerController {
 		updateTicketValues.add(newPriorityValue);
 
 		/* updateTicketPriority */
-		String status = restTemplate.postForObject(
-				Constants.url + "/serviceEngineer/updateTicketPriority", 
-				updateTicketValues,
-				String.class);
-		
-		/* REFRESHING  ListOfTIckets */
+		restTemplate.put( 	Constants.url + "/serviceEngineer/updateTicketPriority", 
+							updateTicketValues );
+
 		ResponseEntity<List<Ticket>> responseEntityUsers= restTemplate.exchange(
 				Constants.url + "/ticket" +  "/getAll" + "/" + session.getAttribute("user_name"),
 				HttpMethod.GET, null, 

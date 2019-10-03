@@ -35,7 +35,7 @@ public class UserServices{
 	
 	public Role validate(User user) {
 		Role role = userRepository.validate(user.getUser_name(), user.getPassword());
-		System.out.println("role = " + role);
+		System.out.println("role : Service = " + role);
 
 		return role;
 	}

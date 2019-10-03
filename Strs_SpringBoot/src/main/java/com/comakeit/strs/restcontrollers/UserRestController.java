@@ -34,7 +34,7 @@ public class UserRestController {
     public Role validateAndGetRole(@RequestBody User user) {// throws STRSUnAuthorizedException{
 
    		Role role = userServices.validate(user);
-   		System.out.println("role = in Rest = " + role);
+   		System.out.println("role : in Rest = " + role);
    		
 		if(role == null) {
 			throw new STRSUnAuthorizedException("Exception");

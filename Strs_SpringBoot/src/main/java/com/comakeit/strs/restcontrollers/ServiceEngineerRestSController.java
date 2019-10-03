@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.comakeit.strs.entites.Ticket;
@@ -19,7 +20,8 @@ public class ServiceEngineerRestSController {
     @Autowired
     private ServiceEngineerServices serviceEngineerServices;
 
-    @RequestMapping(value = "/updateTicketPriority")
+    @RequestMapping(value = "/updateTicketPriority",
+    		method=RequestMethod.PUT)
     public String updateTicketPriority(@RequestBody ArrayList<String> updateTicketValues) {
         return serviceEngineerServices.updateTicketPriority(updateTicketValues);
     }
