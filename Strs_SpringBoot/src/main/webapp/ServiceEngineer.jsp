@@ -442,7 +442,7 @@ if(request.getParameter("operation") != null){
 		List<Ticket> agingOfOpenTickets = (List<Ticket>) session.getAttribute("AgingOfOpenTickets");
 %>
 
-<h2>Avergae time taken per Engineer</h2>
+<h2>Aging of Open Tickets</h2>
 <table>
     <!-- Table heading -->
   <tr>
