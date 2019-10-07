@@ -81,27 +81,22 @@ code {
 		%>
 
 		<h1>Welcome to the Service Ticket Resolution System</h1>
-		<h2>
-			Login
-			<h2>
+		<h2>Login</h2>
+        <form action="Validate" method="POST">
+            User Name : <input type="text" name="user_name" autofocus><br>
+            Password : <input type="password" name="password"><br>
+            <input type="submit" class="button button2"><br>
+        </form>
+            <%
+                if (request.getParameter("isvalid") != null) {
+                    String isvalid = request.getParameter("isvalid");
+                    if (isvalid.equals("false")) {
+            %>
 
-				<a href=""> </a>
-
-				<form action="Validate" method="POST">
-					User Name : <input type="text" name="user_name" autofocus><br>
-					Password : <input type="password" name="password"><br>
-					<input type="submit" class="button button2"><br>
-				</form>
-					<%
-						if (request.getParameter("isvalid") != null) {
-							String isvalid = request.getParameter("isvalid");
-							if (isvalid.equals("false")) {
-					%>
-				
-				<h2>Your credentials are wrong!</h2>
+        <h2>Your credentials are wrong!</h2>
 				<%
-	}
-}
+					}
+				}
 %>
 <!-- </center> -->
 </body>

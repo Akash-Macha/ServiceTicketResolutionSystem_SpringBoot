@@ -15,7 +15,7 @@ import com.comakeit.strs.services.ServiceEngineerServices;
 
 @RestController
 @RequestMapping("/serviceEngineer")
-public class ServiceEngineerRestSController {
+public class ServiceEngineerRestController {
 
     @Autowired
     private ServiceEngineerServices serviceEngineerServices;
@@ -26,12 +26,14 @@ public class ServiceEngineerRestSController {
         return serviceEngineerServices.updateTicketPriority(updateTicketValues);
     }
 
-    @RequestMapping(value="/getStats")
+    @SuppressWarnings("rawtypes")
+	@RequestMapping(value="/getStatsOfEngineer")
     public ArrayList getAverageTimeTakenPerEngineer() {
         return  serviceEngineerServices.getAverageTimeTakenPerEngineer();
     }
     
-    @RequestMapping(value="/getStatsOfSeverity")
+    @SuppressWarnings("rawtypes")
+	@RequestMapping(value="/getStatsOfSeverity")
     public ArrayList getAverageTimeTakenPerServerity() {
         return  serviceEngineerServices.getAverageTimeTakenPerServerity();
     }

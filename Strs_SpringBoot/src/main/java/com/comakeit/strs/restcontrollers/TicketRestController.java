@@ -24,7 +24,8 @@ public class TicketRestController {
         return  ticketServices.getAllTickets(user_name);
     }
     
-    @RequestMapping(value="/close/{ticket_id}")
+    @RequestMapping(value="/close/{ticket_id}",
+    		method = RequestMethod.DELETE)
     public String closeTicket(@PathVariable(value="ticket_id") String ticket_id){
         return  ticketServices.closeTicket(ticket_id);
     }

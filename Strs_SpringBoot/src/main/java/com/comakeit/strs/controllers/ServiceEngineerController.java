@@ -10,7 +10,6 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
@@ -51,10 +50,9 @@ public class ServiceEngineerController {
 		modelAndView.setViewName("ServiceEngineer.jsp?operation=ShowAllTickets");
 		
 		return modelAndView;
-		
 	}
 	
-	@RequestMapping(value = "/SE-updateTicketPriroty", ///{TicketId}/{newPriority}", 
+	@RequestMapping(value = "/SE-updateTicketPriroty", 
 			method= RequestMethod.GET)
 	public ModelAndView updateTicket(HttpServletRequest request,  HttpSession session) {														
 		String ticket_id = request.getParameter("TicketId");
@@ -91,7 +89,7 @@ public class ServiceEngineerController {
 		/* close ticket */
 		ResponseEntity<String> responseEntityCloseTicket= restTemplate.exchange(
 				Constants.url + "/ticket" +  "/close" + "/" + TicketId,
-				HttpMethod.GET, null, 
+				HttpMethod.DELETE, null, 
 				new ParameterizedTypeReference<String>() {});
 		
 		if(responseEntityCloseTicket.getBody().equals("true")) {
@@ -102,9 +100,9 @@ public class ServiceEngineerController {
 					new ParameterizedTypeReference<String>() {});
 			
 			if(responseEntityCheckPendingTickets.getBody().equals("true")) {
-//				System.out.println("\n\n->There are pending tickets\n\n");
+				// System.out.println("\n\n->There are pending tickets\n\n");
 			}else {
-//				System.out.println("\n\n->There are no pending tickets\n\n");
+				// System.out.println("\n\n->There are no pending tickets\n\n");
 			}
 			
 		}
@@ -124,13 +122,14 @@ public class ServiceEngineerController {
 		return modelAndView;
 	}
 	
-//	SE-Average_Time_Taken_Per_Engineer	
+	// SE-Average_Time_Taken_Per_Engineer	
+	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/SE-Average_Time_Taken_Per_Engineer", method= RequestMethod.GET)
 	public ModelAndView Average_Time_Taken_Per_Engineer(HttpSession session) {
 		
 		
 		ResponseEntity<ArrayList> responseEntityAverageTimeTakenPerEngineer= restTemplate.exchange(
-				Constants.url + "/serviceEngineer" +  "/getStats",  //+ "/" + session.getAttribute("user_name"),
+				Constants.url + "/serviceEngineer" +  "/getStatsOfEngineer",  //+ "/" + session.getAttribute("user_name"),
 				HttpMethod.GET, null, 
 				new ParameterizedTypeReference<ArrayList>() {});
 		
@@ -145,7 +144,8 @@ public class ServiceEngineerController {
 		return modelAndView;
 	}
 	
-//	SE-Average_Time_Taken_Per_Severity
+	// SE-Average_Time_Taken_Per_Severity
+	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/SE-Average_Time_Taken_Per_Severity", method= RequestMethod.GET)
 	public ModelAndView Average_Time_Taken_Per_Severity(HttpSession session) {
 
@@ -164,7 +164,7 @@ public class ServiceEngineerController {
 		return modelAndView;
 	}
 	
-	//SE-Aging_of_Open_Tickets
+	// SE-Aging_of_Open_Tickets
 	@RequestMapping(value = "/SE-Aging_of_Open_Tickets", method= RequestMethod.GET)
 	public ModelAndView getAgingOfOpenTicket(HttpSession session) {
 		

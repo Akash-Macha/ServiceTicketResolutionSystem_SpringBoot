@@ -12,7 +12,6 @@ import com.comakeit.strs.entites.ServiceEngineer;
 import com.comakeit.strs.entites.Status;
 import com.comakeit.strs.entites.Ticket;
 import com.comakeit.strs.entites.User;
-import com.comakeit.strs.exceptions.STRSUnAuthorizedException;
 import com.comakeit.strs.repositories.IServiceEngineerRepository;
 import com.comakeit.strs.repositories.IStatusRepository;
 import com.comakeit.strs.repositories.ITicketRepository;
@@ -53,6 +52,14 @@ public class UserServices{
 	}
 	
 	public String insertTicket(Ticket ticket) {
+		/* Assigning "requested_by: User" data using user.user_name */
+		List<User> listOfusers =  getListOfUsers();
+		for(User user : listOfusers) {
+			if(user.getUser_name().equals( ticket.getRequested_by().getUser_name() )) {
+				ticket.setRequested_by( user );
+			}
+		}
+		
 		if(checkAndAssignTicketForUnAssignedServiceEmployee(ticket)) {
 			return "Inserted";
 		}

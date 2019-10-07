@@ -12,21 +12,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.comakeit.strs.constants.Constants;
-//import com.comakeit.strs.entites.Priority;
-//import com.comakeit.strs.entites.Role;
-//import com.comakeit.strs.entites.Ticket;
-//import com.comakeit.strs.entites.User;
 import com.comakeit.strs.entites.Department;
 import com.comakeit.strs.entites.Priority;
 import com.comakeit.strs.entites.Role;
 import com.comakeit.strs.entites.Ticket;
 import com.comakeit.strs.entites.User;
-import com.comakeit.strs.exceptions.STRSUnAuthorizedException;
 
 
 @Controller
@@ -226,11 +220,16 @@ public class UserController {
 				ticket.setRequested_by( eachUser );
 		
 		/* insert ticket and assign to a serviceEmployee */
-		String status = restTemplate.postForObject(
+		try {
+				restTemplate.postForObject(
 				Constants.url + "/user/insertTicket",
 				ticket,
-				String.class);
-		
+				ResponseEntity.class);
+		}catch(Exception e) {
+			System.out.println("Exception In UserController: ");
+			e.printStackTrace();
+		}
+				
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("EndUser.jsp?operation=TicketGenerated");
 

@@ -12,7 +12,6 @@ import com.comakeit.strs.entites.Ticket;
 
 public interface ITicketRepository extends JpaRepository<Ticket, Integer>{
 
-	
 	@Query(""
 			+ "SELECT ticket " 
 			+ "FROM Ticket ticket "

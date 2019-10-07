@@ -28,7 +28,7 @@ public class AdminController {
     
     @RequestMapping("admin-Show_All_User")
     public ModelAndView Show_All_User(HttpSession session) {
-//      get-all-users
+    	// get-all-users
         ResponseEntity<List<User>> responseEntityUsers= restTemplate.exchange(
                 Constants.url + "/admin" +  "/getAllUsers",
                 HttpMethod.GET, null, 
@@ -44,7 +44,8 @@ public class AdminController {
         
         return modelAndView;
     }
-//  Add_User
+    
+    // Add_User
     @RequestMapping("Add_User")
     public ModelAndView addUser(User user) {
         
@@ -107,7 +108,8 @@ public class AdminController {
         /* -- START: adding ServiceEngineer */
         ServiceEngineer serviceEngineer = new ServiceEngineer();
         
-        List<Department> listOfDepartments = (List<Department>)session.getAttribute("listOfDepartments");
+        @SuppressWarnings("unchecked")
+		List<Department> listOfDepartments = (List<Department>)session.getAttribute("listOfDepartments");
         for(Department department : listOfDepartments) {
             if(department.getName().equals( departmentName ))
                 serviceEngineer.setDepartment(department);
@@ -131,7 +133,7 @@ public class AdminController {
         return modelAndView;
     }
         
-//  admin-ShowStatusesAndAddStatuses
+    // admin-ShowStatusesAndAddStatuses
     @RequestMapping("admin-ShowStatusesAndAddStatuses")
     public ModelAndView showStatusesAndAddStatuses(HttpSession session) {
         ResponseEntity<List<Status>> responseEntityStatuses = restTemplate.exchange(
@@ -148,7 +150,7 @@ public class AdminController {
         return modelAndView;
     }
     
-//  admin-addNewStatus
+    // admin-addNewStatus
     @RequestMapping("admin-addNewStatus")
     public ModelAndView addNewStatus(
             String newStatusValue,
@@ -181,7 +183,7 @@ public class AdminController {
         return modelAndView;
     }
     
-//  admin-ShowRolesAndAddRole
+    // admin-ShowRolesAndAddRole
     @RequestMapping("admin-ShowRolesAndAddRole")
     public ModelAndView ShowRolesAndAddRole(HttpSession session) {
         ResponseEntity<List<Role>> responseEntityRoles = restTemplate.exchange(
@@ -198,7 +200,7 @@ public class AdminController {
         return modelAndView;
     }
     
-//  admin-addNewRole
+    // admin-addNewRole
     @RequestMapping("admin-addNewRole")
     public ModelAndView addNewRole(
             String newRoleName,
@@ -230,7 +232,7 @@ public class AdminController {
         return modelAndView;
     }
 
-//  admin-ShowPrioritiesAndAddPriority
+    // admin-ShowPrioritiesAndAddPriority
     @RequestMapping("admin-ShowPrioritiesAndAddPriority")
     public ModelAndView ShowPrioritiesAndAddPriority(HttpSession session) {
 
@@ -277,7 +279,7 @@ public class AdminController {
         return modelAndView;
     }
     
-//  admin-ShowDepartmentsAndAddDepartment
+    // admin-ShowDepartmentsAndAddDepartment
     @RequestMapping("admin-ShowDepartmentsAndAddDepartment")
     public ModelAndView showDepartmentsAndAddDepartment(HttpSession session) {
 

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import com.comakeit.strs.entites.Priority;
@@ -86,7 +85,6 @@ public class ServiceEngineerServices {
             
                 /* updating ServiceEngineer table with otherHighPriorityTicket  */
             	
-//            	ticket.setPriority( );
                 User user = ticket.getAssigned_to();
                 ServiceEngineer serviceEngineer = serviceEngineerRepository.getServiceEngineerByUserId(user.getId());
                 
@@ -104,7 +102,7 @@ public class ServiceEngineerServices {
              *  Just change the Priority of the ticket and
              *  this respective serviceEngineer
              */
-                /* updating ServiceEngineer table with otherHighPriorityTicket  */
+            /* updating ServiceEngineer table with otherHighPriorityTicket  */
             User user = ticket.getAssigned_to();
             ServiceEngineer serviceEngineer = serviceEngineerRepository.getServiceEngineerByUserId(user.getId());
             
@@ -116,7 +114,8 @@ public class ServiceEngineerServices {
         }
     }
 
-    public ArrayList getAverageTimeTakenPerEngineer() {//String user_name) {
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	public ArrayList getAverageTimeTakenPerEngineer() {
         /*
          * Get All the serviceEngineers
          * calculate the AVG time 
@@ -133,7 +132,7 @@ public class ServiceEngineerServices {
             
             userNameAndStats.add(user.getName());
             
-            Double value = (Double)  serviceEngineerRepository.getStatsPerEngineer(user.getId()); //.getResultList().get(0);
+            Double value = (Double)  serviceEngineerRepository.getStatsPerEngineer(user.getId());
             if(value != null)
                 userNameAndStats.add( value );
             else {
@@ -146,7 +145,8 @@ public class ServiceEngineerServices {
         return statsOfServiceEngineers;
     }
 
-    public ArrayList getAverageTimeTakenPerServerity() {
+    @SuppressWarnings({ "rawtypes", "unchecked", "unused" })
+	public ArrayList getAverageTimeTakenPerServerity() {
 
         List<Priority> listOfPriorities = priorityRepository.findAll();
         

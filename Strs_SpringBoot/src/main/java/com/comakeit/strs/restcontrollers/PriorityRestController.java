@@ -16,7 +16,7 @@ public class PriorityRestController {
 	@Autowired
 	private PriorityServices priorityServices;  
 	
-//	getAllPriorities
+	// getAllPriorities
 	@RequestMapping(value="/getAllPriorities")
 	public List<Priority> getAllPriorities(){
 		return priorityServices.getListOfDepartment(); 

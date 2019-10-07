@@ -44,28 +44,24 @@ public class AdminRestController {
         return adminServices.addServiceEngineer(serviceEngineer);
     }
     
-//  addNewDepartment
     @RequestMapping(value= "/addNewDepartment",
             method = RequestMethod.POST)
     public String addNewDepartment(@RequestBody HashMap<String, String> newDepartmentDetails) {
         return adminServices.addNewDepartment(newDepartmentDetails);
     }
     
-//  addNewStatus
     @RequestMapping(value= "/addNewStatus",
             method = RequestMethod.POST)
     public String addNewStatus(@RequestBody HashMap<String, String> newStatusDetails) {
         return adminServices.addNewStatus(newStatusDetails);
     }
     
-//  addNewRole
     @RequestMapping(value= "/addNewRole",
             method = RequestMethod.POST)
     public String addNewRole(@RequestBody HashMap<String, String> newRoleDetails) {
         return adminServices.addNewRole(newRoleDetails);
     }
     
-//  addNewPriority
     @RequestMapping(value= "/addNewPriority",
             method = RequestMethod.POST)
     public String addNewPriority(@RequestBody HashMap<String, String> newPriorityDetails) {

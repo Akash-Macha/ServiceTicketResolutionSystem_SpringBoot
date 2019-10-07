@@ -16,7 +16,6 @@ import com.comakeit.strs.entites.User;
 import com.comakeit.strs.repositories.IServiceEngineerRepository;
 import com.comakeit.strs.repositories.IStatusRepository;
 import com.comakeit.strs.repositories.ITicketRepository;
-import com.comakeit.strs.repositories.IUserRepository;
 
 @Service
 public class TicketServices {
@@ -26,9 +25,6 @@ public class TicketServices {
     
     @Autowired
     private IStatusRepository statusRepository;
-    
-    @Autowired
-    private IUserRepository userRepository;
     
     @Autowired
     private IServiceEngineerRepository serviceEngineerRepository;
@@ -51,7 +47,6 @@ public class TicketServices {
             /* updating serviceEngineer */
             User user= ticket.getAssigned_to();
             ServiceEngineer serviceEngineer = serviceEngineerRepository.getServiceEngineerByUserId( (Integer) user.getId() );
-            
             
             serviceEngineer.setCurrent_high_priority_ticket(null);
             serviceEngineer.setCurrent_ticket_start_date(null);
@@ -95,8 +90,8 @@ public class TicketServices {
                 
                 return "true";
             }
-        }else {
         }
+        
         return "false";
     }
 }

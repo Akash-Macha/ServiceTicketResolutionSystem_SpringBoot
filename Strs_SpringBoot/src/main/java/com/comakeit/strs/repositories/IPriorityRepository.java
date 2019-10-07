@@ -11,7 +11,6 @@ import com.comakeit.strs.entites.User;
 @Repository
 public interface IPriorityRepository  extends JpaRepository<Priority, Integer>{
 
-	
 	@Query("SELECT priority " 
 			+ "FROM Priority priority " 
 			+ "WHERE priority.code = :code ")
