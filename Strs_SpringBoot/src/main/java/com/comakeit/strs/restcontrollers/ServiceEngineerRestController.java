@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,10 +22,24 @@ public class ServiceEngineerRestController {
     @Autowired
     private ServiceEngineerServices serviceEngineerServices;
 
+    /**
+     * 
+     * @param updateTicketValues: [ TicketId: String, newPriorityValue: String ]
+     * @return "true" if successfully updated, else "false"
+     */
     @RequestMapping(value = "/updateTicketPriority",
     		method=RequestMethod.PUT)
-    public String updateTicketPriority(@RequestBody ArrayList<String> updateTicketValues) {
-        return serviceEngineerServices.updateTicketPriority(updateTicketValues);
+//    public String updateTicketPriority(@RequestBody ArrayList<String> updateTicketValues) {
+    public ResponseEntity<?> updateTicketPriority(@RequestBody ArrayList<String> updateTicketValues) {
+//        return serviceEngineerServices.updateTicketPriority(updateTicketValues);
+        
+    	String response = serviceEngineerServices.updateTicketPriority(updateTicketValues); 
+    	
+    	if(response.equals("true"))
+    		return ResponseEntity.ok().build();
+
+    	// the below line, should not be executed!
+    	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
     @SuppressWarnings("rawtypes")
