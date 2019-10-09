@@ -314,7 +314,6 @@ if(request.getParameter("operation") != null){
 <!-- END: Show All Tickets -->
 
 <!-- START: AverageTimeTakenPerEngineer -->
-<!--  operation=DisplayAverageTimeTakenPerEngineer  -->
 <%
 	if(operation.equals("DisplayAverageTimeTakenPerEngineer")){
 		
@@ -331,8 +330,6 @@ if(request.getParameter("operation") != null){
 
 <%
 		for(ArrayList userNameAndHisStats : averageTimeTakenPerEngineer){
-
-		
 %>
 
 <!-- Table rows -->
@@ -437,12 +434,11 @@ if(request.getParameter("operation") != null){
 
 <!--  START : Aging of open tickets -->
 <%
-// operation=DisplayAgingOfOpenTickets
 	if(operation.equals("DisplayAgingOfOpenTickets")){
 		List<Ticket> agingOfOpenTickets = (List<Ticket>) session.getAttribute("AgingOfOpenTickets");
 %>
 
-<h2>Avergae time taken per Engineer</h2>
+<h2>Aging of Open Tickets</h2>
 <table>
     <!-- Table heading -->
   <tr>
@@ -493,7 +489,6 @@ if(request.getParameter("operation") != null){
 <%
 	}
 %>
-
 
 <%
 //}	//  close brase of NULL check

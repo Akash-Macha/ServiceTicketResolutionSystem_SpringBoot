@@ -115,7 +115,7 @@ public class ServiceEngineerServices {
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-	public ArrayList getAverageTimeTakenPerEngineer() {
+	public ArrayList getAverageTimeTakenPerEngineers() {
         /*
          * Get All the serviceEngineers
          * calculate the AVG time 

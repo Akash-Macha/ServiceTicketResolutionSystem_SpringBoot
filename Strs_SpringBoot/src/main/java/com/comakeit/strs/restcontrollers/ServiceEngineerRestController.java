@@ -29,9 +29,8 @@ public class ServiceEngineerRestController {
      */
     @RequestMapping(value = "/updateTicketPriority",
     		method=RequestMethod.PUT)
-//    public String updateTicketPriority(@RequestBody ArrayList<String> updateTicketValues) {
+
     public ResponseEntity<?> updateTicketPriority(@RequestBody ArrayList<String> updateTicketValues) {
-//        return serviceEngineerServices.updateTicketPriority(updateTicketValues);
         
     	String response = serviceEngineerServices.updateTicketPriority(updateTicketValues); 
     	
@@ -43,9 +42,9 @@ public class ServiceEngineerRestController {
     }
 
     @SuppressWarnings("rawtypes")
-	@RequestMapping(value="/getStatsOfEngineer")
-    public ArrayList getAverageTimeTakenPerEngineer() {
-        return  serviceEngineerServices.getAverageTimeTakenPerEngineer();
+	@RequestMapping(value="/getStatsOfEngineers")
+    public ArrayList getAverageTimeTakenPerEngineers() {
+        return  serviceEngineerServices.getAverageTimeTakenPerEngineers();
     }
     
     @SuppressWarnings("rawtypes")
