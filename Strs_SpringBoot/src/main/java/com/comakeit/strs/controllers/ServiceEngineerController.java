@@ -129,7 +129,7 @@ public class ServiceEngineerController {
 		
 		
 		ResponseEntity<ArrayList> responseEntityAverageTimeTakenPerEngineer= restTemplate.exchange(
-				Constants.url + "/serviceEngineer" +  "/getStatsOfEngineer",  //+ "/" + session.getAttribute("user_name"),
+				Constants.url + "/serviceEngineer" +  "/getStatsOfEngineers",
 				HttpMethod.GET, null, 
 				new ParameterizedTypeReference<ArrayList>() {});
 		
@@ -168,14 +168,24 @@ public class ServiceEngineerController {
 	@RequestMapping(value = "/SE-Aging_of_Open_Tickets", method= RequestMethod.GET)
 	public ModelAndView getAgingOfOpenTicket(HttpSession session) {
 		
-		ResponseEntity<List<Ticket>> responseEntityAgingOfOpenTicket= restTemplate.exchange(
+		ResponseEntity<ArrayList> responseEntityAgingOfOpenTicket= restTemplate.exchange(
 				Constants.url + "/serviceEngineer" +  "/getAgingOfOpenTicket" + "/" + session.getAttribute("user_name"),
 				HttpMethod.GET, null, 
-				new ParameterizedTypeReference<List<Ticket>>() {});
+				new ParameterizedTypeReference<ArrayList>() {});
 		
-		List<Ticket> agingOfOpenTickets = responseEntityAgingOfOpenTicket.getBody();
+		ArrayList ticketsWithAging = responseEntityAgingOfOpenTicket.getBody();
 		
-		session.setAttribute("AgingOfOpenTickets", agingOfOpenTickets);
+		System.out.println("\nIn SE Controller");
+		ArrayList ticketWithAge = (ArrayList) ticketsWithAging.get(0);
+		System.out.println("\n--> 1 : " + ticketWithAge + "\n\n");
+		Ticket ticket = (Ticket) ticketWithAge.get(0);
+		System.out.println("\n\nTicket " + ticket);
+		
+		Integer age = (Integer) ticketWithAge.get(1);
+		System.out.println("age = " + age);
+		
+		
+		session.setAttribute("AgingOfOpenTickets", ticketsWithAging);
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("ServiceEngineer.jsp?operation=DisplayAgingOfOpenTickets");

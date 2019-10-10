@@ -1,5 +1,7 @@
 package com.comakeit.strs.restcontrollers;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,7 +56,25 @@ public class ServiceEngineerRestController {
     }
     
     @RequestMapping(value="/getAgingOfOpenTicket/{user_name}")
-    public List<Ticket> getAgingOfOpenTicket(@PathVariable(value="user_name") String user_name) {
-        return  serviceEngineerServices.getAgingOfOpenTicket(user_name);
+    public ArrayList getAgingOfOpenTicket(@PathVariable(value="user_name") String user_name) {
+    	List<Ticket> listOfTickets = serviceEngineerServices.getAgingOfOpenTicket(user_name);; 
+//        return  
+    	ArrayList ticketsWithAge = new ArrayList();
+    	ArrayList eachTicketWithAge = null;
+    	for( Ticket ticket : listOfTickets ) {
+    		eachTicketWithAge = new ArrayList();
+    		eachTicketWithAge.add(ticket);
+
+    		/* calculate the AGE  */
+    		LocalDate dateFrom = ticket.getStart_date();  
+    	    LocalDate dateTo = LocalDate.now();
+    	    Period intervalPeriod = Period.between(dateFrom, dateTo);
+    	    Integer age = intervalPeriod.getDays();
+    		eachTicketWithAge.add(age);
+    		
+    		ticketsWithAge.add(eachTicketWithAge);
+    	}
+    	System.out.println("\n\nCheck: In SE-Rest\n " + ticketsWithAge);
+    	return ticketsWithAge;
     }
 }

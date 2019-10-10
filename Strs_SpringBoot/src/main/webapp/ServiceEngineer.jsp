@@ -435,7 +435,8 @@ if(request.getParameter("operation") != null){
 <!--  START : Aging of open tickets -->
 <%
 	if(operation.equals("DisplayAgingOfOpenTickets")){
-		List<Ticket> agingOfOpenTickets = (List<Ticket>) session.getAttribute("AgingOfOpenTickets");
+		List agingOfOpenTickets = (List) session.getAttribute("AgingOfOpenTickets");
+		System.out.println("\n\nCheck: In SE.jsp\n " + agingOfOpenTickets);
 %>
 
 <h2>Aging of Open Tickets</h2>
@@ -453,16 +454,11 @@ if(request.getParameter("operation") != null){
   </tr>
 
 <%
-		for(Ticket eachOpenTicket : agingOfOpenTickets){
-%>
-<%
-	/* calculate the AGE  */
-	LocalDate dateFrom = eachOpenTicket.getStart_date();  
-    LocalDate dateTo = LocalDate.now();
-
-    Period intervalPeriod = Period.between(dateFrom, dateTo);
-
-    Integer age = intervalPeriod.getDays();
+		for(int i=0 ; i < agingOfOpenTickets.size() ; ++i){
+			ArrayList ticketWithAge = (ArrayList) agingOfOpenTickets.get(0);
+			Ticket eachOpenTicket = (Ticket) ticketWithAge.get(0);
+			System.out.println("--\n\n" + eachOpenTicket + "--\n\n");
+			Integer age = (Integer)ticketWithAge.get(1);
 %>
 <!-- Table rows -->
     <tr>

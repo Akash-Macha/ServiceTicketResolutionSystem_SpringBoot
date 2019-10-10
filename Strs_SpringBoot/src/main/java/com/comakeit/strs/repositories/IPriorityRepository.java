@@ -6,7 +6,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.comakeit.strs.entites.Priority;
-import com.comakeit.strs.entites.User;
 
 @Repository
 public interface IPriorityRepository  extends JpaRepository<Priority, Integer>{
