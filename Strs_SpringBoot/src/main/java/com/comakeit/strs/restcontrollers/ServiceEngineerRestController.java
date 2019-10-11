@@ -57,20 +57,32 @@ public class ServiceEngineerRestController {
     
     @RequestMapping(value="/getAgingOfOpenTicket/{user_name}")
     public ArrayList getAgingOfOpenTicket(@PathVariable(value="user_name") String user_name) {
-    	List<Ticket> listOfTickets = serviceEngineerServices.getAgingOfOpenTicket(user_name);; 
-//        return  
-    	ArrayList ticketsWithAge = new ArrayList();
-    	ArrayList eachTicketWithAge = null;
-    	for( Ticket ticket : listOfTickets ) {
-    		eachTicketWithAge = new ArrayList();
-    		eachTicketWithAge.add(ticket);
+    	/*
+    	 * unable to access  Ticket [ Ticket:Obj, age:Integer ] 
+    	 */
+    	List<Ticket> listOfTicketsWithAges = serviceEngineerServices.getAgingOfOpenTicket(user_name);; 
 
-    		/* calculate the AGE  */
+    	ArrayList<ArrayList<String>> ticketsWithAge = new ArrayList<ArrayList<String>>();
+    	ArrayList<String> eachTicketWithAge = null;
+    	for( Ticket ticket : listOfTicketsWithAges ) {
+    		
+    		eachTicketWithAge = new ArrayList();
+    		
+    		eachTicketWithAge.add(ticket.getId().toString());
+    		eachTicketWithAge.add(ticket.getPriority().getValue());
+    		eachTicketWithAge.add(ticket.getStart_date().toString());
+ 
+       		/* calculate the AGE  */
     		LocalDate dateFrom = ticket.getStart_date();  
     	    LocalDate dateTo = LocalDate.now();
     	    Period intervalPeriod = Period.between(dateFrom, dateTo);
     	    Integer age = intervalPeriod.getDays();
-    		eachTicketWithAge.add(age);
+    		eachTicketWithAge.add( age.toString() );
+    		
+    		eachTicketWithAge.add(ticket.getStatus().getValue());
+    		eachTicketWithAge.add(ticket.getMessage());
+    		eachTicketWithAge.add(ticket.getRequested_by().getName());
+    		eachTicketWithAge.add(ticket.getRequested_end_date().toString());
     		
     		ticketsWithAge.add(eachTicketWithAge);
     	}

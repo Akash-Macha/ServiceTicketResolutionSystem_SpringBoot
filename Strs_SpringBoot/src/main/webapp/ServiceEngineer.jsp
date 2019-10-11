@@ -435,7 +435,7 @@ if(request.getParameter("operation") != null){
 <!--  START : Aging of open tickets -->
 <%
 	if(operation.equals("DisplayAgingOfOpenTickets")){
-		List agingOfOpenTickets = (List) session.getAttribute("AgingOfOpenTickets");
+		ArrayList<ArrayList<String>> agingOfOpenTickets = (ArrayList<ArrayList<String>>) session.getAttribute("AgingOfOpenTickets");
 		System.out.println("\n\nCheck: In SE.jsp\n " + agingOfOpenTickets);
 %>
 
@@ -455,22 +455,19 @@ if(request.getParameter("operation") != null){
 
 <%
 		for(int i=0 ; i < agingOfOpenTickets.size() ; ++i){
-			ArrayList ticketWithAge = (ArrayList) agingOfOpenTickets.get(0);
-			Ticket eachOpenTicket = (Ticket) ticketWithAge.get(0);
-			System.out.println("--\n\n" + eachOpenTicket + "--\n\n");
-			Integer age = (Integer)ticketWithAge.get(1);
+			System.out.println("--\n\n In SE.jsp " + agingOfOpenTickets.get(i) + "--\n");
 %>
 <!-- Table rows -->
     <tr>
-    	<td> <%= eachOpenTicket.getId()  %> </td>
-    	<td> <%= eachOpenTicket.getPriority().getValue()  %> </td>
-    	<td> <%= eachOpenTicket.getStart_date() %> </td>
-    	<td> <%= age  %> </td>
-    	<td> <%= eachOpenTicket.getStatus().getValue()  %> </td>
-    	<td> <%= eachOpenTicket.getMessage()  %> </td>
-    	<td> <%= eachOpenTicket.getRequested_by().getUser_name()  %> </td>
-    	<td> <%= eachOpenTicket.getRequested_end_date()  %> </td>
-	</tr>
+        <td> <%= agingOfOpenTickets.get(i).get(0) %> </td>
+        <td> <%= agingOfOpenTickets.get(i).get(1) %> </td>
+        <td> <%= agingOfOpenTickets.get(i).get(2) %> </td>
+        <td> <%= agingOfOpenTickets.get(i).get(3) %> </td>
+        <td> <%= agingOfOpenTickets.get(i).get(4) %> </td>
+        <td> <%= agingOfOpenTickets.get(i).get(5) %> </td>
+        <td> <%= agingOfOpenTickets.get(i).get(6) %> </td>
+        <td> <%= agingOfOpenTickets.get(i).get(7) %> </td>
+    </tr>
 <%
 		}
 %>
