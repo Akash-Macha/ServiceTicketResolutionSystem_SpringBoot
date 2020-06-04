@@ -1,5 +1,5 @@
 # Service Ticket Resolution System | SpringBoot
-It's backend for Service Ticket Resolution System Application build using SpringBoot
+Bbackend for Service Ticket Resolution System Application build using SpringBoot
 
 Service Ticket Resolution System Application Requirements:
 ```
