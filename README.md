@@ -14,14 +14,17 @@ Service Ticket Resolution System Application Requirements:
       e. Status
       f. Service engineer
       g. customer
-3.  Upon creation of the ticket, the system should automatically look for a service engineer who is not assigned any tickets and assign the ticket to him/her. 
+3.  Upon creation of the ticket, the system should automatically look for a service engineer
+    who is not assigned any tickets and assign the ticket to him/her. 
     The service engineer table has the below:
       a. Id
       b. Name
       c. Area of expertise
       d. Total tickets worked on
       e. Current high priority ticket ID
-4.   If there are no service engineers available without tickets, the method should look for those that have lower priority tickets and assign to the one who is working on the most recently created low priority ticket
+4.   If there are no service engineers available without tickets, 
+     the method should look for those that have lower priority tickets and 
+     assign to the one who is working on the most recently created low priority ticket
 5.   At this time, the status of the low priority ticket has to be changed to pending
 6.   Create a method to report completion of a ticket by the service engineer
 7.   Create a method to report statistics of avg time taken 
